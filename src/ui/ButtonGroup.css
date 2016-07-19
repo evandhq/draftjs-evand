@@ -5,7 +5,7 @@
   white-space: nowrap;
 }
 
-.root:last-child {
+.root:first-child {
   margin-right: 0;
 }
 
@@ -21,16 +21,16 @@
   z-index: 1;
 }
 
-.root > div:first-child > button {
+.root > div:last-child > button {
   border-top-left-radius: 2px;
   border-bottom-left-radius: 2px;
 }
 
 .root > div + div > button {
-  border-left-width: 0;
+  border-right-width: 0;
 }
 
-.root > div:last-child > button {
+.root > div:first-child > button {
   border-top-right-radius: 2px;
   border-bottom-right-radius: 2px;
 }

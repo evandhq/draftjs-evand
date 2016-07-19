@@ -37,6 +37,7 @@
 
 .inner {
   display: flex;
+  flex-wrap: wrap;
 }
 
 .input {
@@ -51,6 +52,7 @@
   font-family: inherit;
   font-size: inherit;
   line-height: 24px;
+  direction: ltr;
 }
 
 .inner .buttonGroup {
