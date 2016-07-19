@@ -94,15 +94,15 @@ module.exports =
 
 	var _EditorToolbar2 = _interopRequireDefault(_EditorToolbar);
 
-	var _EditorValue = __webpack_require__(184);
+	var _EditorValue = __webpack_require__(185);
 
 	var _EditorValue2 = _interopRequireDefault(_EditorValue);
 
-	var _LinkDecorator = __webpack_require__(199);
+	var _LinkDecorator = __webpack_require__(203);
 
 	var _LinkDecorator2 = _interopRequireDefault(_LinkDecorator);
 
-	var _ImageDecorator = __webpack_require__(200);
+	var _ImageDecorator = __webpack_require__(204);
 
 	var _ImageDecorator2 = _interopRequireDefault(_ImageDecorator);
 
@@ -114,13 +114,13 @@ module.exports =
 
 	var _classAutobind2 = _interopRequireDefault(_classAutobind);
 
-	var _events = __webpack_require__(204);
+	var _events = __webpack_require__(184);
 
 	var _draftJsUtils = __webpack_require__(147);
 
-	__webpack_require__(205);
+	__webpack_require__(208);
 
-	var _RichTextEditor = __webpack_require__(207);
+	var _RichTextEditor = __webpack_require__(210);
 
 	var _RichTextEditor2 = _interopRequireDefault(_RichTextEditor);
 
@@ -137,9 +137,7 @@ module.exports =
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 	// $FlowIssue - Flow doesn't understand CSS Modules
-
 	// $FlowIssue - Flow doesn't understand CSS Modules
-
 
 	var MAX_LIST_DEPTH = 2;
 
@@ -195,7 +193,8 @@ module.exports =
 	          keyEmitter: this._keyEmitter,
 	          editorState: editorState,
 	          onChange: this._onChange,
-	          focusEditor: this._focus
+	          focusEditor: this._focus,
+	          onFileChange: this.props.onFileChange
 	        }),
 	        _react2.default.createElement(
 	          'div',
@@ -19065,6 +19064,10 @@ module.exports =
 
 	var _IconButton2 = _interopRequireDefault(_IconButton);
 
+	var _Button = __webpack_require__(159);
+
+	var _Button2 = _interopRequireDefault(_Button);
+
 	var _getEntityAtCursor2 = __webpack_require__(180);
 
 	var _getEntityAtCursor3 = _interopRequireDefault(_getEntityAtCursor2);
@@ -19085,6 +19088,8 @@ module.exports =
 
 	var _EditorToolbar2 = _interopRequireDefault(_EditorToolbar);
 
+	var _events = __webpack_require__(184);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -19094,7 +19099,6 @@ module.exports =
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 	// $FlowIssue - Flow doesn't understand CSS Modules
-
 
 	var EditorToolbar = function (_Component) {
 	  _inherits(EditorToolbar, _Component);
@@ -19240,13 +19244,40 @@ module.exports =
 	      return _react2.default.createElement(
 	        _ButtonGroup2.default,
 	        null,
-	        _react2.default.createElement(_PopoverIconButton2.default, {
-	          label: 'Image',
-	          iconName: 'image',
-	          showPopover: this.state.showImageInput,
-	          onTogglePopover: this._toggleShowImageInput,
-	          onSubmit: this._setImage
-	        })
+	        _react2.default.createElement(
+	          _PopoverIconButton2.default,
+	          {
+	            label: 'Image',
+	            iconName: 'image',
+	            showPopover: this.state.showImageInput,
+	            onTogglePopover: this._toggleShowImageInput,
+	            onSubmit: this._setImage
+	          },
+	          _react2.default.createElement(
+	            'div',
+	            { style: { flexBasis: '100%' } },
+	            'از روی کامپیوتر خود',
+	            _react2.default.createElement(
+	              _Button2.default,
+	              null,
+	              _react2.default.createElement(
+	                'label',
+	                { className: 'uploadButton' },
+	                'آپلود کنید',
+	                _react2.default.createElement('input', {
+	                  type: 'file',
+	                  style: { display: 'none' },
+	                  onChange: this._handleUploadFile
+	                })
+	              )
+	            )
+	          ),
+	          _react2.default.createElement(
+	            'div',
+	            { style: { flexBasis: '100%' } },
+	            _react2.default.createElement('hr', { style: { margin: '10px 0' } })
+	          )
+	        )
 	      );
 	    }
 	  }, {
@@ -19332,6 +19363,19 @@ module.exports =
 	        }
 	      }
 	      this.setState({ showImageInput: !isShowing });
+	    }
+	  }, {
+	    key: '_handleUploadFile',
+	    value: function _handleUploadFile() {
+	      if (this.props.onFileChange) {
+	        var _props;
+
+	        for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+	          args[_key] = arguments[_key];
+	        }
+
+	        (_props = this.props).onFileChange.apply(_props, [this._setImage].concat(args));
+	      }
 	    }
 	  }, {
 	    key: '_setImage',
@@ -19445,8 +19489,8 @@ module.exports =
 	});
 	var INLINE_STYLE_BUTTONS = exports.INLINE_STYLE_BUTTONS = [{ label: 'Bold', style: 'BOLD' }, { label: 'Italic', style: 'ITALIC' }, { label: 'Strikethrough', style: 'STRIKETHROUGH' }, { label: 'Monospace', style: 'CODE' }];
 
-	var BLOCK_TYPE_DROPDOWN = exports.BLOCK_TYPE_DROPDOWN = [{ label: 'Normal', style: 'unstyled' }, { label: 'Heading Large', style: 'header-one' }, { label: 'Heading Medium', style: 'header-two' }, { label: 'Heading Small', style: 'header-three' }, { label: 'Code Block', style: 'code-block' }];
-	var BLOCK_TYPE_BUTTONS = exports.BLOCK_TYPE_BUTTONS = [{ label: 'UL', style: 'unordered-list-item' }, { label: 'OL', style: 'ordered-list-item' }, { label: 'Blockquote', style: 'blockquote' }];
+	var BLOCK_TYPE_DROPDOWN = exports.BLOCK_TYPE_DROPDOWN = [{ label: 'معمولی', style: 'unstyled' }, { label: 'تیتر بزرگ', style: 'header-one' }, { label: 'تیتر متوسط', style: 'header-two' }, { label: 'تیتر کوچک', style: 'header-three' }];
+	var BLOCK_TYPE_BUTTONS = exports.BLOCK_TYPE_BUTTONS = [{ label: 'لیست', style: 'unordered-list-item' }, { label: 'لیست باترتیب', style: 'ordered-list-item' }, { label: 'نقل قول', style: 'blockquote' }];
 
 	exports.default = {
 	  INLINE_STYLE_BUTTONS: INLINE_STYLE_BUTTONS,
@@ -19507,8 +19551,10 @@ module.exports =
 	    value: function render() {
 	      var _props = this.props;
 	      var style = _props.style;
+	      var onToggle = _props.onToggle;
 
-	      var otherProps = _objectWithoutProperties(_props, ['style']);
+	      var otherProps = _objectWithoutProperties(_props, ['style', 'onToggle']); // eslint-disable-line no-unused-vars
+
 
 	      var iconName = style.toLowerCase();
 	      // `focusOnClick` will prevent the editor from losing focus when a control
@@ -19601,10 +19647,11 @@ module.exports =
 	      var iconName = props.iconName;
 	      var label = props.label;
 	      var children = props.children;
+	      var isActive = props.isActive;
 
-	      var otherProps = _objectWithoutProperties(props, ['className', 'iconName', 'label', 'children']);
+	      var otherProps = _objectWithoutProperties(props, ['className', 'iconName', 'label', 'children', 'isActive']);
 
-	      className = (0, _classnames2.default)(className, (_cx = {}, _defineProperty(_cx, _IconButton2.default.root, true), _defineProperty(_cx, _IconButton2.default.isActive, props.isActive), _cx));
+	      className = (0, _classnames2.default)(className, (_cx = {}, _defineProperty(_cx, _IconButton2.default.root, true), _defineProperty(_cx, _IconButton2.default.isActive, isActive), _cx));
 	      return _react2.default.createElement(
 	        _ButtonWrap2.default,
 	        null,
@@ -19740,12 +19787,14 @@ module.exports =
 	      var props = this.props;
 	      var className = props.className;
 	      var isDisabled = props.isDisabled;
+	      var focusOnClick = props.focusOnClick;
+	      var formSubmit = props.formSubmit;
 
-	      var otherProps = _objectWithoutProperties(props, ['className', 'isDisabled']);
+	      var otherProps = _objectWithoutProperties(props, ['className', 'isDisabled', 'focusOnClick', 'formSubmit']);
 
 	      className = (0, _classnames2.default)(className, _Button2.default.root);
-	      var onMouseDown = props.focusOnClick === false ? this._onMouseDownPreventDefault : props.onMouseDown;
-	      var type = props.formSubmit ? 'submit' : 'button';
+	      var onMouseDown = focusOnClick === false ? this._onMouseDownPreventDefault : props.onMouseDown;
+	      var type = formSubmit ? 'submit' : 'button';
 	      return _react2.default.createElement(
 	        'button',
 	        _extends({ type: type }, otherProps, { onMouseDown: onMouseDown, className: className, disabled: isDisabled }),
@@ -19861,11 +19910,11 @@ module.exports =
 
 
 	// module
-	exports.push([module.id, ".Button__root___1t9vg {\r\n  display: inline-block;\r\n  margin: 0 5px 0 0;\r\n  padding: 3px 8px;\r\n  height: 30px;\r\n  line-height: 22px;\r\n  box-sizing: border-box;\r\n  background: none #fdfdfd;\r\n  background: linear-gradient(to bottom, #fdfdfd 0%,#f6f7f8 100%);\r\n  border: 1px solid #999;\r\n  border-radius: 2px;\r\n  color: #333;\r\n  text-decoration: none;\r\n  font-size: inherit;\r\n  font-family: inherit;\r\n  cursor: pointer;\r\n  white-space: nowrap;\r\n}\r\n\r\n.Button__root___1t9vg:disabled {\r\n  cursor: not-allowed;\r\n  background: none transparent;\r\n}\r\n\r\n.Button__root___1t9vg:disabled > * {\r\n  opacity: .5;\r\n}\r\n", ""]);
+	exports.push([module.id, ".Button__root___1gz0c {\n  display: inline-block;\n  margin: 0 5px 0 0;\n  padding: 3px 8px;\n  height: 30px;\n  line-height: 22px;\n  box-sizing: border-box;\n  background: none #fdfdfd;\n  background: linear-gradient(to bottom, #fdfdfd 0%,#f6f7f8 100%);\n  border: 1px solid #999;\n  border-radius: 2px;\n  color: #333;\n  text-decoration: none;\n  font-size: inherit;\n  font-family: inherit;\n  cursor: pointer;\n  white-space: nowrap;\n}\n\n.Button__root___1gz0c:disabled {\n  cursor: not-allowed;\n  background: none transparent;\n}\n\n.Button__root___1gz0c:disabled > * {\n  opacity: .5;\n}\n", ""]);
 
 	// exports
 	exports.locals = {
-		"root": "Button__root___1t9vg"
+		"root": "Button__root___1gz0c"
 	};
 
 /***/ },
@@ -20247,11 +20296,11 @@ module.exports =
 
 
 	// module
-	exports.push([module.id, ".ButtonWrap__root___2qgcQ {\r\n  display: inline-block;\r\n  position: relative;\r\n  /* This ensures the popover will show on top of the editor. */\r\n  z-index: 10;\r\n}\r\n", ""]);
+	exports.push([module.id, ".ButtonWrap__root___1EO_R {\n  display: inline-block;\n  position: relative;\n  /* This ensures the popover will show on top of the editor. */\n  z-index: 10;\n}\n", ""]);
 
 	// exports
 	exports.locals = {
-		"root": "ButtonWrap__root___2qgcQ"
+		"root": "ButtonWrap__root___1EO_R"
 	};
 
 /***/ },
@@ -20289,28 +20338,28 @@ module.exports =
 
 
 	// module
-	exports.push([module.id, ".IconButton__root___2awWb {\r\n  padding-left: 3px;\r\n  padding-right: 3px;\r\n}\r\n\r\n.IconButton__icon___2DdFx {\r\n  display: inline-block;\r\n  width: 22px;\r\n  height: 22px;\r\n  background-position: center center;\r\n  background-repeat: no-repeat;\r\n  background-size: 18px;\r\n}\r\n\r\n.IconButton__isActive___2rZ4Z {\r\n  background: none #d8d8d8;\r\n}\r\n\r\n.IconButton__icon-undo___2w6D8 {\r\n  background-image: url(\"data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0Ij48cGF0aCBkPSJNMTcuODU2IDI0YzIuNjY1LTQuODMgMy4xMTUtMTIuMTk1LTcuMzU2LTExLjk1VjE4bC05LTkgOS05djUuODJDMjMuMDM4IDUuNDk1IDI0LjQzNSAxNi44OSAxNy44NTYgMjR6Ii8+PC9zdmc+\");\r\n  background-size: 14px;\r\n}\r\n.IconButton__icon-redo___Uq9D7 {\r\n  background-image: url(\"data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0Ij48cGF0aCBkPSJNMTMuNSA1LjgyVjBsOSA5LTkgOXYtNS45NUMzLjAzIDExLjgwNiAzLjQ3OCAxOS4xNyA2LjE0NCAyNC0uNDM2IDE2Ljg5Ljk2MiA1LjQ5NCAxMy41IDUuODJ6Ii8+PC9zdmc+\");\r\n  background-size: 14px;\r\n}\r\n\r\n.IconButton__icon-unordered-list-item___1cs8c {\r\n  background-image: url(\"data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNiIgaGVpZ2h0PSIxNiIgdmlld0JveD0iMCAwIDE2IDE2Ij48cGF0aCBkPSJNNC42NTYgMy4zNDRIMTR2MS4zMTNINC42NTZWMy4zNDR6bTAgNS4zMTJWNy4zNDNIMTR2MS4zMTNINC42NTZ6bTAgNHYtMS4zMTNIMTR2MS4zMTNINC42NTZ6bS0yLTEuNTNxLjM3NSAwIC42NC4yNXQuMjY3LjYyNC0uMjY2LjYyNS0uNjQuMjUtLjYyNi0uMjVUMS43OCAxMnQuMjUtLjYyNS42MjYtLjI1em0wLTguMTI2cS40MDYgMCAuNzAzLjI4dC4yOTYuNzItLjI5Ny43Mi0uNzA0LjI4LS43MDMtLjI4VDEuNjU2IDR0LjI5Ny0uNzIuNzAzLS4yOHptMCA0cS40MDYgMCAuNzAzLjI4dC4yOTYuNzItLjI5Ny43Mi0uNzA0LjI4LS43MDMtLjI4VDEuNjU2IDh0LjI5Ny0uNzIuNzAzLS4yOHoiLz48L3N2Zz4=\");\r\n}\r\n.IconButton__icon-ordered-list-item___3JgbM {\r\n  background-image: url(\"data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNiIgaGVpZ2h0PSIxNiIgdmlld0JveD0iMCAwIDE2IDE2Ij48cGF0aCBkPSJNNC42NTYgOC42NTZWNy4zNDNIMTR2MS4zMTNINC42NTZ6bTAgNHYtMS4zMTNIMTR2MS4zMTNINC42NTZ6bTAtOS4zMTJIMTR2MS4zMTNINC42NTZWMy4zNDR6bS0zLjMxMiA0di0uNjg4aDJ2LjYyNWwtMS4yMiAxLjM3NmgxLjIydi42ODhoLTJWOC43MmwxLjE4OC0xLjM3NkgxLjM0NHptLjY1Ni0ydi0yaC0uNjU2di0uNjg4aDEuMzEzdjIuNjg4SDJ6bS0uNjU2IDZ2LS42ODhoMnYyLjY4OGgtMnYtLjY4OGgxLjMxM3YtLjMxM0gydi0uNjg4aC42NTd2LS4zMTNIMS4zNDR6Ii8+PC9zdmc+\");\r\n}\r\n.IconButton__icon-blockquote___uz2D0 {\r\n  background-image: url(\"data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNiIgaGVpZ2h0PSIxNiIgdmlld0JveD0iMCAwIDE2IDE2Ij48cGF0aCBkPSJNOS4zNDQgMTEuMzQ0bDEuMzEzLTIuNjg4aC0ydi00aDR2NGwtMS4zMTMgMi42ODhoLTJ6bS01LjM0NCAwbDEuMzQ0LTIuNjg4aC0ydi00aDR2NEw2IDExLjM0NEg0eiIvPjwvc3ZnPg==\");\r\n}\r\n\r\n.IconButton__icon-bold___FMXgD {\r\n  background-image: url(\"data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNiIgaGVpZ2h0PSIxNiIgdmlld0JveD0iMCAwIDE2IDE2Ij48cGF0aCBkPSJNOSAxMC4zNDRxLjQzOCAwIC43Mi0uMjk3dC4yOC0uNzAzLS4yOC0uNzAzVDkgOC4zNDVINi42NTZ2Mkg5em0tMi4zNDQtNnYyaDJxLjQwNiAwIC43MDMtLjI5N3QuMjk2LS43MDMtLjI5Ny0uNzAzLS43MDQtLjI5NmgtMnptMy43NSAyLjg0NHExLjQzOC42NTYgMS40MzggMi4yOCAwIDEuMDY0LS43MDMgMS43OThUOS4zNzYgMTJoLTQuNzJWMi42NTZoNC4xOXExLjEyNCAwIDEuODkuNzh0Ljc2NiAxLjkwNy0xLjA5MyAxLjg0NHoiLz48L3N2Zz4=\");\r\n}\r\n.IconButton__icon-italic___2Tb_j {\r\n  background-image: url(\"data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNiIgaGVpZ2h0PSIxNiIgdmlld0JveD0iMCAwIDE2IDE2Ij48cGF0aCBkPSJNNi42NTYgMi42NTZIMTJ2MmgtMS44NzVMNy44NzUgMTBoMS40N3YySDR2LTJoMS44NzVsMi4yNS01LjM0NGgtMS40N3YtMnoiLz48L3N2Zz4=\");\r\n}\r\n.IconButton__icon-underline___23t7Y {\r\n  background-image: url(\"data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNiIgaGVpZ2h0PSIxNiIgdmlld0JveD0iMCAwIDE2IDE2Ij48cGF0aCBkPSJNMy4zNDQgMTIuNjU2aDkuMzEzVjE0SDMuMzQ0di0xLjM0NHpNOCAxMS4zNDRxLTEuNjU2IDAtMi44MjgtMS4xNzJUNCA3LjM0NFYyaDEuNjU2djUuMzQ0cTAgLjk3LjY4OCAxLjY0VDggOS42NTh0MS42NTYtLjY3Mi42ODgtMS42NFYySDEydjUuMzQ0UTEyIDkgMTAuODI4IDEwLjE3MlQ4IDExLjM0NHoiLz48L3N2Zz4=\");\r\n}\r\n.IconButton__icon-strikethrough___1Uq4O {\r\n  background-image: url(\"data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0Ij48cGF0aCBkPSJNMjMuNTcgMTJxLjE5IDAgLjMxLjEydC4xMi4zMXYuODU2cTAgLjE4OC0uMTIuMzA4dC0uMzEuMTJILjQzcS0uMTg4IDAtLjMwOC0uMTJUMCAxMy4yODZ2LS44NTdxMC0uMTkuMTItLjMxVC40MjggMTJIMjMuNTd6bS0xNy4xLS44NTdxLS4zNzYtLjQ3LS42ODQtMS4wNy0uNjQzLTEuMy0uNjQzLTIuNTIgMC0yLjQyMyAxLjc5NS00LjEzNyAxLjc4LTEuNyA1LjI2My0xLjcuNjcgMCAyLjIzOC4yNTMuODg0LjE2IDIuMzcuNjQyLjEzNS41MS4yODIgMS41OC4xODggMS42NDcuMTg4IDIuNDUgMCAuMjQyLS4wNjcuNjA0bC0uMTYuMDQtMS4xMjUtLjA4LS4xODgtLjAyN3EtLjY3LTEuOTk3LTEuMzgtMi43NDctMS4xNzgtMS4yMi0yLjgxMi0xLjIyLTEuNTI3IDAtMi40MzguNzktLjg5Ny43NzgtLjg5NyAxLjk1NiAwIC45NzcuODg0IDEuODc0dDMuNzM3IDEuNzI4cS45MjUuMjY4IDIuMzE4Ljg4NC43NzcuMzc1IDEuMjcyLjY5Nkg2LjQ3em02Ljc5IDMuNDI4aDUuNTAzcS4wOTQuNTIzLjA5NCAxLjIzMyAwIDEuNDg3LS41NSAyLjg0LS4zMDcuNzM2LS45NSAxLjM5Mi0uNDk2LjQ3LTEuNDYgMS4wODUtMS4wNy42NDMtMi4wNS44ODQtMS4wNy4yOC0yLjcxOC4yOC0xLjUyOCAwLTIuNjEzLS4zMDdsLTEuODc1LS41MzZxLS43NjMtLjIxMy0uOTY0LS4zNzQtLjEwNy0uMTA3LS4xMDctLjI5NXYtLjE3M3EwLTEuNDQ2LS4wMjYtMi4wOS0uMDEzLS40IDAtLjkxbC4wMjctLjQ5NnYtLjU4OGwxLjM2Ny0uMDI3cS4yLjQ1NS40MDIuOTV0LjMuNzUuMTY3LjM2M3EuNDcuNzYzIDEuMDcgMS4yNi41NzcuNDggMS40MDcuNzYyLjc5LjI5NSAxLjc2OC4yOTUuODU3IDAgMS44NjItLjM2MiAxLjAzLS4zNDggMS42MzQtMS4xNTIuNjMtLjgxNi42My0xLjcyNyAwLTEuMTI1LTEuMDg2LTIuMTAzLS40NTUtLjM4OC0xLjgzNS0uOTV6Ii8+PC9zdmc+\");\r\n  background-size: 14px;\r\n}\r\n.IconButton__icon-code___LWqTN {\r\n  background-image: url(\"data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgMTE2IDExNiIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiIGNsaXAtcnVsZT0iZXZlbm9kZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgc3Ryb2tlLW1pdGVybGltaXQ9IjEuNDE0Ij48ZyBmaWxsLXJ1bGU9Im5vbnplcm8iPjxwYXRoIGQ9Ik0yMi40NjQgMjguNDhjMCAyLjg5NS4zNDQgNS45MDUuODA2IDkuMDIuMzQyIDMuMDEuNjkgNi4wMi42OSA4LjkxNyAwIDMuNTYyLS45MTcgNy43OS04Ljk1NSA3LjkxMnY3LjIzNmM4LjAzNi4xMTUgOC45NTYgNC42NzIgOC45NTYgNy45MTIgMCAyLjg4Ni0uMzQ4IDUuNzgzLS42OSA4Ljc4Ny0uNDYyIDMuMDEzLS44MDYgNi4xMzQtLjgwNiA4LjkyIDAgMTEuMjM4IDcuMTA2IDE1LjI1MiAxNy4wODcgMTUuMjUyaDMuMzJ2LTcuOTEyaC0yLjA2MmMtNS43MjYgMC04LjAyNS0zLjIzMy04LjAyNS04Ljc5NiAwLTIuMjM2LjM0NC00LjU3LjgwNi03LjAyMy4yMjctMi40MzguNjg0LTUuMTIuNjg0LTguMTIuMTE1LTcuNzkyLTMuMzItMTEuMjUzLTkuMTc0LTEyLjU4NnYtLjIyNWM1Ljg1NC0xLjMzMiA5LjI5My00LjY3NiA5LjE3LTEyLjQ3IDAtMi44OTUtLjQ1Ny01LjU2NS0uNjg0LTguMDI0LS40NjItMi40NC0uODA3LTQuNzc3LS44MDctNy4wMTIgMC01LjQ1IDIuMDU4LTguNjg4IDguMDI0LTguNjg4aDIuMDY2di04LjAxNGgtMy4zMmMtMTAuMjA1LS4wMDMtMTcuMDg2IDQuNDQ0LTE3LjA4NiAxNC45MTV6TTkyLjA2IDQ2LjQxN2MwLTIuODkzLjQ1My01LjkwMy44MDMtOC45MTguMzQzLTMuMTE0Ljc5Ny02LjEyLjc5Ny05LjAyIDAtMTAuNDctNi44NzUtMTQuOTE3LTE3LjA4LTE0LjkxN2gtMy4zMjd2OC4wMTdoMi4wNmM1Ljg1Mi4xMTQgNy45MSAzLjIzMyA3LjkxIDguNjg4IDAgMi4yMy0uMzQyIDQuNTY1LS42ODUgNy4wMTItLjM1IDIuNDU1LS42OTIgNS4xMjYtLjY5MiA4LjAyNC0uMTA1IDcuNzk3IDMuMzI3IDExLjEzNiA5LjA1NiAxMi40N3YuMjIyYy01LjcyIDEuMzMzLTkuMTYgNC43OTYtOS4wNTYgMTIuNTg3IDAgMyAuMzQyIDUuNjg2LjY5MiA4LjEyLjM0MyAyLjQ1NS42ODYgNC43OS42ODYgNy4wMjUgMCA1LjU1NC0yLjE4IDguNjgtNy45MTIgOC43ODhoLTIuMDZ2Ny45MTJoMy4zMjVjOS45NzUgMCAxNy4wNzYtNC4wMSAxNy4wNzYtMTUuMjUgMC0yLjc4My0uNDU0LTUuOS0uNzk2LTguOTE0LS4zNDctMy4wMS0uODA1LTUuOS0uODA1LTguNzk1IDAtMy4yMzMgMS4wMzUtNy43OSA4Ljk0My03LjkxM1Y1NC4zMmMtNy45MDQtLjExMi04LjkzNS00LjM0LTguOTM1LTcuOTAzeiIvPjwvZz48L3N2Zz4=\");\r\n}\r\n\r\n.IconButton__icon-link___2I96k {\r\n  background-image: url(\"data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyMiIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDIyIDI0Ij48cGF0aCBkPSJNMTkuNSAxNi4yODZxMC0uNTM2LS4zNzUtLjkxbC0yLjc4Ni0yLjc4N3EtLjM3Ni0uMzc2LS45MTItLjM3Ni0uNTYzIDAtLjk2NC40M2wuMjU0LjI0N3EuMjE0LjIwOC4yODguMjl0LjIuMjUzLjE3NS4zNDIuMDQ4LjM2OHEwIC41MzYtLjM3NS45MXQtLjkxLjM3NnEtLjIwMiAwLS4zNy0uMDQ4dC0uMzQtLjE3NC0uMjU1LS4yLS4yODgtLjI5LS4yNDgtLjI1M3EtLjQ0Mi40MTUtLjQ0Mi45NzggMCAuNTM2LjM3NS45MWwyLjc2IDIuNzczcS4zNi4zNjIuOTEuMzYyLjUzNiAwIC45MS0uMzQ4bDEuOTctMS45NTVxLjM3NS0uMzc1LjM3NS0uODk3em0tOS40MTUtOS40NDJxMC0uNTM2LS4zNzUtLjkxTDYuOTUgMy4xNnEtLjM3NC0uMzc0LS45MS0uMzc0LS41MjIgMC0uOTEuMzYyTDMuMTYgNS4xMDNxLS4zNzUuMzc1LS4zNzUuODk3IDAgLjUzNi4zNzUuOTFsMi43ODYgMi43ODdxLjM2Mi4zNjIuOTEuMzYyLjU2NCAwIC45NjUtLjQxNmwtLjI1My0uMjQ4cS0uMjEzLS4yMDgtLjI4OC0uMjg4dC0uMjAyLS4yNTQtLjE3NC0uMzQyLS4wNDctLjM2OHEwLS41MzYuMzc1LS45MXQuOTEtLjM3NnEuMjAyIDAgLjM3LjA0N3QuMzQuMTc0LjI1NS4yLjI4OC4yODguMjQ4LjI1NHEuNDQyLS40MTUuNDQyLS45Nzh6bTExLjk4NiA5LjQ0MnEwIDEuNjA3LTEuMTM3IDIuNzJsLTEuOTcgMS45NTRxLTEuMTEgMS4xMTItMi43MTggMS4xMTItMS42MiAwLTIuNzMyLTEuMTM4bC0yLjc2LTIuNzcycS0xLjExLTEuMTEyLTEuMTEtMi43MiAwLTEuNjQ2IDEuMTc4LTIuNzk4bC0xLjE3OC0xLjE4cS0xLjE1MiAxLjE4LTIuNzg2IDEuMTgtMS42MDcgMC0yLjczMi0xLjEyNUwxLjMzOCA4LjczMlEuMjEzIDcuNjA4LjIxMyA2VDEuMzUgMy4yODNsMS45Ny0xLjk1NVE0LjQzMi4yMTUgNi4wNC4yMTVxMS42MiAwIDIuNzMgMS4xMzhsMi43NiAyLjc3MnExLjExMiAxLjExMiAxLjExMiAyLjcyIDAgMS42NDYtMS4xOCAyLjc5OGwxLjE4IDEuMThxMS4xNTItMS4xOCAyLjc4Ni0xLjE4IDEuNjA3IDAgMi43MzIgMS4xMjVsMi43ODYgMi43ODZxMS4xMjUgMS4xMjUgMS4xMjUgMi43MzJ6Ii8+PC9zdmc+\");\r\n  background-size: 14px;\r\n}\r\n\r\n.IconButton__icon-remove-link___2BnS8 {\r\n  background-image: url(\"data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyMiIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDIyIDI0Ij48cGF0aCBkPSJNNS44OCAxNy4wMjJsLTMuNDMgMy40M3EtLjEzNC4xMi0uMzA4LjEyLS4xNiAwLS4zMDgtLjEyLS4xMi0uMTM1LS4xMi0uMzF0LjEyLS4zMDdsMy40My0zLjQzcS4xMzMtLjEyLjMwNy0uMTJ0LjMxLjEycS4xMi4xMzUuMTIuMzF0LS4xMi4zMDd6bTIuMjYzLjU1djQuMjg1cTAgLjE4OC0uMTIuMzA4dC0uMzEuMTItLjMwNy0uMTItLjEyLS4zMDhWMTcuNTdxMC0uMTg3LjEyLS4zMDd0LjMwOC0uMTIuMzA4LjEyLjEyLjMwOHptLTMtM3EwIC4xODctLjEyLjMwN3QtLjMxLjEySC40M3EtLjE4OCAwLS4zMDgtLjEyVDAgMTQuNTd0LjEyLS4zMDcuMzA4LS4xMmg0LjI4NnEuMTg4IDAgLjMwOC4xMnQuMTIuMzA4em0xNi45MjggMS43MTRxMCAxLjYwNy0xLjEzNyAyLjcybC0xLjk3IDEuOTU0cS0xLjExIDEuMTEyLTIuNzE4IDEuMTEyLTEuNjIgMC0yLjczMi0xLjEzOEw5LjA0IDE2LjQ0N3EtLjI4LS4yOC0uNTYzLS43NWwzLjItLjI0IDMuNjU3IDMuNjdxLjM2Mi4zNi45MS4zNjd0LjkxMi0uMzU1bDEuOTctMS45NTZxLjM3NC0uMzc1LjM3NC0uODk3IDAtLjUzNi0uMzc1LS45MWwtMy42Ny0zLjY4NC4yNC0zLjJxLjQ3LjI4Ljc1LjU2Mmw0LjUgNC41cTEuMTI2IDEuMTUyIDEuMTI2IDIuNzMyek0xMy44MSA2LjU5bC0zLjIuMjRMNi45NSAzLjE2cS0uMzc0LS4zNzUtLjkxLS4zNzUtLjUyMiAwLS45MS4zNjJMMy4xNiA1LjEwMnEtLjM3NS4zNzUtLjM3NS44OTcgMCAuNTM1LjM3NS45MWwzLjY3IDMuNjctLjI0IDMuMjE0cS0uNDctLjI4LS43NS0uNTYzbC00LjUtNC41US4yMTMgNy41OC4yMTMgNnEwLTEuNjA4IDEuMTM4LTIuNzJsMS45Ny0xLjk1NVE0LjQzLjIxMyA2LjA0LjIxM3ExLjYyIDAgMi43MzIgMS4xMzhsNC40NzMgNC40ODhxLjI4LjI4LjU2My43NXptOC40NzggMS4xMjRxMCAuMTg4LS4xMi4zMDh0LS4zMS4xMmgtNC4yODVxLS4xODcgMC0uMzA3LS4xMnQtLjEyLS4zMDguMTItLjMwOC4zMDgtLjEyaDQuMjg3cS4xODggMCAuMzA4LjEydC4xMi4zMDh6TTE1IC40M3Y0LjI4NXEwIC4xODgtLjEyLjMwOHQtLjMxLjEyLS4zMDctLjEyLS4xMi0uMzA4Vi40M3EwLS4xOS4xMi0uMzFUMTQuNTcgMHQuMzEuMTIuMTIuMzF6bTUuNDUgMi4wMmwtMy40MjggMy40M3EtLjE0Ny4xMi0uMzA4LjEydC0uMzA4LS4xMnEtLjEyLS4xMzQtLjEyLS4zMDh0LjEyLS4zMDhsMy40My0zLjQzcS4xMzMtLjEyLjMwNy0uMTJ0LjMwOC4xMnEuMTIyLjEzNS4xMjIuMzF0LS4xMi4zMDd6Ii8+PC9zdmc+\");\r\n  background-size: 14px;\r\n}\r\n\r\n.IconButton__icon-image___2NVj8 {\r\n  background-image: url(\"data:image/svg+xml;utf8;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iaXNvLTg4NTktMSI/Pgo8IS0tIEdlbmVyYXRvcjogQWRvYmUgSWxsdXN0cmF0b3IgMTYuMC4wLCBTVkcgRXhwb3J0IFBsdWctSW4gLiBTVkcgVmVyc2lvbjogNi4wMCBCdWlsZCAwKSAgLS0+CjwhRE9DVFlQRSBzdmcgUFVCTElDICItLy9XM0MvL0RURCBTVkcgMS4xLy9FTiIgImh0dHA6Ly93d3cudzMub3JnL0dyYXBoaWNzL1NWRy8xLjEvRFREL3N2ZzExLmR0ZCI+CjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgdmVyc2lvbj0iMS4xIiBpZD0iQ2FwYV8xIiB4PSIwcHgiIHk9IjBweCIgd2lkdGg9IjUxMnB4IiBoZWlnaHQ9IjUxMnB4IiB2aWV3Qm94PSIwIDAgNTMzLjMzMyA1MzMuMzM0IiBzdHlsZT0iZW5hYmxlLWJhY2tncm91bmQ6bmV3IDAgMCA1MzMuMzMzIDUzMy4zMzQ7IiB4bWw6c3BhY2U9InByZXNlcnZlIj4KPGc+Cgk8cGF0aCBkPSJNNDY2LjY2NywxMDBoLTQwMHYzMzMuMzMzaDQwMFYxMDB6IE01MzMuMzMzLDMzLjMzM0w1MzMuMzMzLDMzLjMzM1Y1MDBIMFYzMy4zMzNINTMzLjMzM3ogTTQzMy4zMzMsNDAwSDEwMHYtNjYuNjY3ICAgbDEwMC0xNjYuNjY3bDEzNi45NzksMTY2LjY2N2w5Ni4zNTQtNjYuNjY2VjMwMFY0MDB6IE0zMzMuMzMzLDE4My4zMzNjMCwyNy42MTQsMjIuMzg2LDUwLDUwLDUwczUwLTIyLjM4Niw1MC01MHMtMjIuMzg2LTUwLTUwLTUwICAgUzMzMy4zMzMsMTU1LjcxOSwzMzMuMzMzLDE4My4zMzN6IiBmaWxsPSIjMDAwMDAwIi8+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPC9zdmc+Cg==\");\r\n  background-size: 14px;\r\n}\r\n\r\n.IconButton__icon-cancel___1A6y8 {\r\n  background-image: url(\"data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0Ij48cGF0aCBkPSJNMjMuNzggMTkuMjhMMTYuNSAxMmw3LjI4LTcuMjhhLjc0OC43NDggMCAwIDAgMC0xLjA2TDIwLjM0LjIxOGEuNzUuNzUgMCAwIDAtMS4wNi0uMDAyTDEyIDcuNDk4IDQuNzE3LjIyYS43NDguNzQ4IDAgMCAwLTEuMDYgMEwuMjE3IDMuNjZhLjc1Ljc1IDAgMCAwIDAgMS4wNkw3LjQ5NyAxMmwtNy4yOCA3LjI4YS43NDguNzQ4IDAgMCAwIDAgMS4wNmwzLjQ0IDMuNDRhLjc1Ljc1IDAgMCAwIDEuMDYuMDAybDcuMjgtNy4yOCA3LjI4MiA3LjI4Yy4wNzguMDc4LjE3LjEzNS4yNjguMTcuMjY3LjEuNTguMDQ0Ljc5My0uMTdsMy40NC0zLjQ0YS43NS43NSAwIDAgMCAwLTEuMDZ6Ii8+PC9zdmc+\");\r\n  background-size: 13px;\r\n}\r\n\r\n.IconButton__icon-accept___2elsq {\r\n  background-image: url(\"data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0Ij48cGF0aCBkPSJNMjAuMjUgM0w5IDE0LjI1IDMuNzUgOSAwIDEyLjc1bDkgOSAxNS0xNXoiLz48L3N2Zz4=\");\r\n  background-size: 13px;\r\n}\r\n", ""]);
+	exports.push([module.id, ".IconButton__root___3tqZW {\n  padding-left: 3px;\n  padding-right: 3px;\n}\n\n.IconButton__icon___3YgOS {\n  display: inline-block;\n  width: 22px;\n  height: 22px;\n  background-position: center center;\n  background-repeat: no-repeat;\n  background-size: 18px;\n}\n\n.IconButton__isActive___2Ey8p {\n  background: none #d8d8d8;\n}\n\n.IconButton__icon-undo___EQSRP {\n  background-image: url(\"data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0Ij48cGF0aCBkPSJNMTcuODU2IDI0YzIuNjY1LTQuODMgMy4xMTUtMTIuMTk1LTcuMzU2LTExLjk1VjE4bC05LTkgOS05djUuODJDMjMuMDM4IDUuNDk1IDI0LjQzNSAxNi44OSAxNy44NTYgMjR6Ii8+PC9zdmc+\");\n  background-size: 14px;\n}\n.IconButton__icon-redo___30MVz {\n  background-image: url(\"data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0Ij48cGF0aCBkPSJNMTMuNSA1LjgyVjBsOSA5LTkgOXYtNS45NUMzLjAzIDExLjgwNiAzLjQ3OCAxOS4xNyA2LjE0NCAyNC0uNDM2IDE2Ljg5Ljk2MiA1LjQ5NCAxMy41IDUuODJ6Ii8+PC9zdmc+\");\n  background-size: 14px;\n}\n\n.IconButton__icon-unordered-list-item___Pvkrr {\n  background-image: url(\"data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNiIgaGVpZ2h0PSIxNiIgdmlld0JveD0iMCAwIDE2IDE2Ij48cGF0aCBkPSJNNC42NTYgMy4zNDRIMTR2MS4zMTNINC42NTZWMy4zNDR6bTAgNS4zMTJWNy4zNDNIMTR2MS4zMTNINC42NTZ6bTAgNHYtMS4zMTNIMTR2MS4zMTNINC42NTZ6bS0yLTEuNTNxLjM3NSAwIC42NC4yNXQuMjY3LjYyNC0uMjY2LjYyNS0uNjQuMjUtLjYyNi0uMjVUMS43OCAxMnQuMjUtLjYyNS42MjYtLjI1em0wLTguMTI2cS40MDYgMCAuNzAzLjI4dC4yOTYuNzItLjI5Ny43Mi0uNzA0LjI4LS43MDMtLjI4VDEuNjU2IDR0LjI5Ny0uNzIuNzAzLS4yOHptMCA0cS40MDYgMCAuNzAzLjI4dC4yOTYuNzItLjI5Ny43Mi0uNzA0LjI4LS43MDMtLjI4VDEuNjU2IDh0LjI5Ny0uNzIuNzAzLS4yOHoiLz48L3N2Zz4=\");\n}\n.IconButton__icon-ordered-list-item___2rzD0 {\n  background-image: url(\"data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNiIgaGVpZ2h0PSIxNiIgdmlld0JveD0iMCAwIDE2IDE2Ij48cGF0aCBkPSJNNC42NTYgOC42NTZWNy4zNDNIMTR2MS4zMTNINC42NTZ6bTAgNHYtMS4zMTNIMTR2MS4zMTNINC42NTZ6bTAtOS4zMTJIMTR2MS4zMTNINC42NTZWMy4zNDR6bS0zLjMxMiA0di0uNjg4aDJ2LjYyNWwtMS4yMiAxLjM3NmgxLjIydi42ODhoLTJWOC43MmwxLjE4OC0xLjM3NkgxLjM0NHptLjY1Ni0ydi0yaC0uNjU2di0uNjg4aDEuMzEzdjIuNjg4SDJ6bS0uNjU2IDZ2LS42ODhoMnYyLjY4OGgtMnYtLjY4OGgxLjMxM3YtLjMxM0gydi0uNjg4aC42NTd2LS4zMTNIMS4zNDR6Ii8+PC9zdmc+\");\n}\n.IconButton__icon-blockquote___17VSX {\n  background-image: url(\"data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNiIgaGVpZ2h0PSIxNiIgdmlld0JveD0iMCAwIDE2IDE2Ij48cGF0aCBkPSJNOS4zNDQgMTEuMzQ0bDEuMzEzLTIuNjg4aC0ydi00aDR2NGwtMS4zMTMgMi42ODhoLTJ6bS01LjM0NCAwbDEuMzQ0LTIuNjg4aC0ydi00aDR2NEw2IDExLjM0NEg0eiIvPjwvc3ZnPg==\");\n}\n\n.IconButton__icon-bold___2zl9t {\n  background-image: url(\"data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNiIgaGVpZ2h0PSIxNiIgdmlld0JveD0iMCAwIDE2IDE2Ij48cGF0aCBkPSJNOSAxMC4zNDRxLjQzOCAwIC43Mi0uMjk3dC4yOC0uNzAzLS4yOC0uNzAzVDkgOC4zNDVINi42NTZ2Mkg5em0tMi4zNDQtNnYyaDJxLjQwNiAwIC43MDMtLjI5N3QuMjk2LS43MDMtLjI5Ny0uNzAzLS43MDQtLjI5NmgtMnptMy43NSAyLjg0NHExLjQzOC42NTYgMS40MzggMi4yOCAwIDEuMDY0LS43MDMgMS43OThUOS4zNzYgMTJoLTQuNzJWMi42NTZoNC4xOXExLjEyNCAwIDEuODkuNzh0Ljc2NiAxLjkwNy0xLjA5MyAxLjg0NHoiLz48L3N2Zz4=\");\n}\n.IconButton__icon-italic___2hHzc {\n  background-image: url(\"data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNiIgaGVpZ2h0PSIxNiIgdmlld0JveD0iMCAwIDE2IDE2Ij48cGF0aCBkPSJNNi42NTYgMi42NTZIMTJ2MmgtMS44NzVMNy44NzUgMTBoMS40N3YySDR2LTJoMS44NzVsMi4yNS01LjM0NGgtMS40N3YtMnoiLz48L3N2Zz4=\");\n}\n.IconButton__icon-underline___2EmZJ {\n  background-image: url(\"data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNiIgaGVpZ2h0PSIxNiIgdmlld0JveD0iMCAwIDE2IDE2Ij48cGF0aCBkPSJNMy4zNDQgMTIuNjU2aDkuMzEzVjE0SDMuMzQ0di0xLjM0NHpNOCAxMS4zNDRxLTEuNjU2IDAtMi44MjgtMS4xNzJUNCA3LjM0NFYyaDEuNjU2djUuMzQ0cTAgLjk3LjY4OCAxLjY0VDggOS42NTh0MS42NTYtLjY3Mi42ODgtMS42NFYySDEydjUuMzQ0UTEyIDkgMTAuODI4IDEwLjE3MlQ4IDExLjM0NHoiLz48L3N2Zz4=\");\n}\n.IconButton__icon-strikethrough___QtE2X {\n  background-image: url(\"data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0Ij48cGF0aCBkPSJNMjMuNTcgMTJxLjE5IDAgLjMxLjEydC4xMi4zMXYuODU2cTAgLjE4OC0uMTIuMzA4dC0uMzEuMTJILjQzcS0uMTg4IDAtLjMwOC0uMTJUMCAxMy4yODZ2LS44NTdxMC0uMTkuMTItLjMxVC40MjggMTJIMjMuNTd6bS0xNy4xLS44NTdxLS4zNzYtLjQ3LS42ODQtMS4wNy0uNjQzLTEuMy0uNjQzLTIuNTIgMC0yLjQyMyAxLjc5NS00LjEzNyAxLjc4LTEuNyA1LjI2My0xLjcuNjcgMCAyLjIzOC4yNTMuODg0LjE2IDIuMzcuNjQyLjEzNS41MS4yODIgMS41OC4xODggMS42NDcuMTg4IDIuNDUgMCAuMjQyLS4wNjcuNjA0bC0uMTYuMDQtMS4xMjUtLjA4LS4xODgtLjAyN3EtLjY3LTEuOTk3LTEuMzgtMi43NDctMS4xNzgtMS4yMi0yLjgxMi0xLjIyLTEuNTI3IDAtMi40MzguNzktLjg5Ny43NzgtLjg5NyAxLjk1NiAwIC45NzcuODg0IDEuODc0dDMuNzM3IDEuNzI4cS45MjUuMjY4IDIuMzE4Ljg4NC43NzcuMzc1IDEuMjcyLjY5Nkg2LjQ3em02Ljc5IDMuNDI4aDUuNTAzcS4wOTQuNTIzLjA5NCAxLjIzMyAwIDEuNDg3LS41NSAyLjg0LS4zMDcuNzM2LS45NSAxLjM5Mi0uNDk2LjQ3LTEuNDYgMS4wODUtMS4wNy42NDMtMi4wNS44ODQtMS4wNy4yOC0yLjcxOC4yOC0xLjUyOCAwLTIuNjEzLS4zMDdsLTEuODc1LS41MzZxLS43NjMtLjIxMy0uOTY0LS4zNzQtLjEwNy0uMTA3LS4xMDctLjI5NXYtLjE3M3EwLTEuNDQ2LS4wMjYtMi4wOS0uMDEzLS40IDAtLjkxbC4wMjctLjQ5NnYtLjU4OGwxLjM2Ny0uMDI3cS4yLjQ1NS40MDIuOTV0LjMuNzUuMTY3LjM2M3EuNDcuNzYzIDEuMDcgMS4yNi41NzcuNDggMS40MDcuNzYyLjc5LjI5NSAxLjc2OC4yOTUuODU3IDAgMS44NjItLjM2MiAxLjAzLS4zNDggMS42MzQtMS4xNTIuNjMtLjgxNi42My0xLjcyNyAwLTEuMTI1LTEuMDg2LTIuMTAzLS40NTUtLjM4OC0xLjgzNS0uOTV6Ii8+PC9zdmc+\");\n  background-size: 14px;\n}\n.IconButton__icon-code___3F1pe {\n  background-image: url(\"data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgMTE2IDExNiIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiIGNsaXAtcnVsZT0iZXZlbm9kZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgc3Ryb2tlLW1pdGVybGltaXQ9IjEuNDE0Ij48ZyBmaWxsLXJ1bGU9Im5vbnplcm8iPjxwYXRoIGQ9Ik0yMi40NjQgMjguNDhjMCAyLjg5NS4zNDQgNS45MDUuODA2IDkuMDIuMzQyIDMuMDEuNjkgNi4wMi42OSA4LjkxNyAwIDMuNTYyLS45MTcgNy43OS04Ljk1NSA3LjkxMnY3LjIzNmM4LjAzNi4xMTUgOC45NTYgNC42NzIgOC45NTYgNy45MTIgMCAyLjg4Ni0uMzQ4IDUuNzgzLS42OSA4Ljc4Ny0uNDYyIDMuMDEzLS44MDYgNi4xMzQtLjgwNiA4LjkyIDAgMTEuMjM4IDcuMTA2IDE1LjI1MiAxNy4wODcgMTUuMjUyaDMuMzJ2LTcuOTEyaC0yLjA2MmMtNS43MjYgMC04LjAyNS0zLjIzMy04LjAyNS04Ljc5NiAwLTIuMjM2LjM0NC00LjU3LjgwNi03LjAyMy4yMjctMi40MzguNjg0LTUuMTIuNjg0LTguMTIuMTE1LTcuNzkyLTMuMzItMTEuMjUzLTkuMTc0LTEyLjU4NnYtLjIyNWM1Ljg1NC0xLjMzMiA5LjI5My00LjY3NiA5LjE3LTEyLjQ3IDAtMi44OTUtLjQ1Ny01LjU2NS0uNjg0LTguMDI0LS40NjItMi40NC0uODA3LTQuNzc3LS44MDctNy4wMTIgMC01LjQ1IDIuMDU4LTguNjg4IDguMDI0LTguNjg4aDIuMDY2di04LjAxNGgtMy4zMmMtMTAuMjA1LS4wMDMtMTcuMDg2IDQuNDQ0LTE3LjA4NiAxNC45MTV6TTkyLjA2IDQ2LjQxN2MwLTIuODkzLjQ1My01LjkwMy44MDMtOC45MTguMzQzLTMuMTE0Ljc5Ny02LjEyLjc5Ny05LjAyIDAtMTAuNDctNi44NzUtMTQuOTE3LTE3LjA4LTE0LjkxN2gtMy4zMjd2OC4wMTdoMi4wNmM1Ljg1Mi4xMTQgNy45MSAzLjIzMyA3LjkxIDguNjg4IDAgMi4yMy0uMzQyIDQuNTY1LS42ODUgNy4wMTItLjM1IDIuNDU1LS42OTIgNS4xMjYtLjY5MiA4LjAyNC0uMTA1IDcuNzk3IDMuMzI3IDExLjEzNiA5LjA1NiAxMi40N3YuMjIyYy01LjcyIDEuMzMzLTkuMTYgNC43OTYtOS4wNTYgMTIuNTg3IDAgMyAuMzQyIDUuNjg2LjY5MiA4LjEyLjM0MyAyLjQ1NS42ODYgNC43OS42ODYgNy4wMjUgMCA1LjU1NC0yLjE4IDguNjgtNy45MTIgOC43ODhoLTIuMDZ2Ny45MTJoMy4zMjVjOS45NzUgMCAxNy4wNzYtNC4wMSAxNy4wNzYtMTUuMjUgMC0yLjc4My0uNDU0LTUuOS0uNzk2LTguOTE0LS4zNDctMy4wMS0uODA1LTUuOS0uODA1LTguNzk1IDAtMy4yMzMgMS4wMzUtNy43OSA4Ljk0My03LjkxM1Y1NC4zMmMtNy45MDQtLjExMi04LjkzNS00LjM0LTguOTM1LTcuOTAzeiIvPjwvZz48L3N2Zz4=\");\n}\n\n.IconButton__icon-link___2umEl {\n  background-image: url(\"data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyMiIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDIyIDI0Ij48cGF0aCBkPSJNMTkuNSAxNi4yODZxMC0uNTM2LS4zNzUtLjkxbC0yLjc4Ni0yLjc4N3EtLjM3Ni0uMzc2LS45MTItLjM3Ni0uNTYzIDAtLjk2NC40M2wuMjU0LjI0N3EuMjE0LjIwOC4yODguMjl0LjIuMjUzLjE3NS4zNDIuMDQ4LjM2OHEwIC41MzYtLjM3NS45MXQtLjkxLjM3NnEtLjIwMiAwLS4zNy0uMDQ4dC0uMzQtLjE3NC0uMjU1LS4yLS4yODgtLjI5LS4yNDgtLjI1M3EtLjQ0Mi40MTUtLjQ0Mi45NzggMCAuNTM2LjM3NS45MWwyLjc2IDIuNzczcS4zNi4zNjIuOTEuMzYyLjUzNiAwIC45MS0uMzQ4bDEuOTctMS45NTVxLjM3NS0uMzc1LjM3NS0uODk3em0tOS40MTUtOS40NDJxMC0uNTM2LS4zNzUtLjkxTDYuOTUgMy4xNnEtLjM3NC0uMzc0LS45MS0uMzc0LS41MjIgMC0uOTEuMzYyTDMuMTYgNS4xMDNxLS4zNzUuMzc1LS4zNzUuODk3IDAgLjUzNi4zNzUuOTFsMi43ODYgMi43ODdxLjM2Mi4zNjIuOTEuMzYyLjU2NCAwIC45NjUtLjQxNmwtLjI1My0uMjQ4cS0uMjEzLS4yMDgtLjI4OC0uMjg4dC0uMjAyLS4yNTQtLjE3NC0uMzQyLS4wNDctLjM2OHEwLS41MzYuMzc1LS45MXQuOTEtLjM3NnEuMjAyIDAgLjM3LjA0N3QuMzQuMTc0LjI1NS4yLjI4OC4yODguMjQ4LjI1NHEuNDQyLS40MTUuNDQyLS45Nzh6bTExLjk4NiA5LjQ0MnEwIDEuNjA3LTEuMTM3IDIuNzJsLTEuOTcgMS45NTRxLTEuMTEgMS4xMTItMi43MTggMS4xMTItMS42MiAwLTIuNzMyLTEuMTM4bC0yLjc2LTIuNzcycS0xLjExLTEuMTEyLTEuMTEtMi43MiAwLTEuNjQ2IDEuMTc4LTIuNzk4bC0xLjE3OC0xLjE4cS0xLjE1MiAxLjE4LTIuNzg2IDEuMTgtMS42MDcgMC0yLjczMi0xLjEyNUwxLjMzOCA4LjczMlEuMjEzIDcuNjA4LjIxMyA2VDEuMzUgMy4yODNsMS45Ny0xLjk1NVE0LjQzMi4yMTUgNi4wNC4yMTVxMS42MiAwIDIuNzMgMS4xMzhsMi43NiAyLjc3MnExLjExMiAxLjExMiAxLjExMiAyLjcyIDAgMS42NDYtMS4xOCAyLjc5OGwxLjE4IDEuMThxMS4xNTItMS4xOCAyLjc4Ni0xLjE4IDEuNjA3IDAgMi43MzIgMS4xMjVsMi43ODYgMi43ODZxMS4xMjUgMS4xMjUgMS4xMjUgMi43MzJ6Ii8+PC9zdmc+\");\n  background-size: 14px;\n}\n\n.IconButton__icon-remove-link___j61pw {\n  background-image: url(\"data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyMiIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDIyIDI0Ij48cGF0aCBkPSJNNS44OCAxNy4wMjJsLTMuNDMgMy40M3EtLjEzNC4xMi0uMzA4LjEyLS4xNiAwLS4zMDgtLjEyLS4xMi0uMTM1LS4xMi0uMzF0LjEyLS4zMDdsMy40My0zLjQzcS4xMzMtLjEyLjMwNy0uMTJ0LjMxLjEycS4xMi4xMzUuMTIuMzF0LS4xMi4zMDd6bTIuMjYzLjU1djQuMjg1cTAgLjE4OC0uMTIuMzA4dC0uMzEuMTItLjMwNy0uMTItLjEyLS4zMDhWMTcuNTdxMC0uMTg3LjEyLS4zMDd0LjMwOC0uMTIuMzA4LjEyLjEyLjMwOHptLTMtM3EwIC4xODctLjEyLjMwN3QtLjMxLjEySC40M3EtLjE4OCAwLS4zMDgtLjEyVDAgMTQuNTd0LjEyLS4zMDcuMzA4LS4xMmg0LjI4NnEuMTg4IDAgLjMwOC4xMnQuMTIuMzA4em0xNi45MjggMS43MTRxMCAxLjYwNy0xLjEzNyAyLjcybC0xLjk3IDEuOTU0cS0xLjExIDEuMTEyLTIuNzE4IDEuMTEyLTEuNjIgMC0yLjczMi0xLjEzOEw5LjA0IDE2LjQ0N3EtLjI4LS4yOC0uNTYzLS43NWwzLjItLjI0IDMuNjU3IDMuNjdxLjM2Mi4zNi45MS4zNjd0LjkxMi0uMzU1bDEuOTctMS45NTZxLjM3NC0uMzc1LjM3NC0uODk3IDAtLjUzNi0uMzc1LS45MWwtMy42Ny0zLjY4NC4yNC0zLjJxLjQ3LjI4Ljc1LjU2Mmw0LjUgNC41cTEuMTI2IDEuMTUyIDEuMTI2IDIuNzMyek0xMy44MSA2LjU5bC0zLjIuMjRMNi45NSAzLjE2cS0uMzc0LS4zNzUtLjkxLS4zNzUtLjUyMiAwLS45MS4zNjJMMy4xNiA1LjEwMnEtLjM3NS4zNzUtLjM3NS44OTcgMCAuNTM1LjM3NS45MWwzLjY3IDMuNjctLjI0IDMuMjE0cS0uNDctLjI4LS43NS0uNTYzbC00LjUtNC41US4yMTMgNy41OC4yMTMgNnEwLTEuNjA4IDEuMTM4LTIuNzJsMS45Ny0xLjk1NVE0LjQzLjIxMyA2LjA0LjIxM3ExLjYyIDAgMi43MzIgMS4xMzhsNC40NzMgNC40ODhxLjI4LjI4LjU2My43NXptOC40NzggMS4xMjRxMCAuMTg4LS4xMi4zMDh0LS4zMS4xMmgtNC4yODVxLS4xODcgMC0uMzA3LS4xMnQtLjEyLS4zMDguMTItLjMwOC4zMDgtLjEyaDQuMjg3cS4xODggMCAuMzA4LjEydC4xMi4zMDh6TTE1IC40M3Y0LjI4NXEwIC4xODgtLjEyLjMwOHQtLjMxLjEyLS4zMDctLjEyLS4xMi0uMzA4Vi40M3EwLS4xOS4xMi0uMzFUMTQuNTcgMHQuMzEuMTIuMTIuMzF6bTUuNDUgMi4wMmwtMy40MjggMy40M3EtLjE0Ny4xMi0uMzA4LjEydC0uMzA4LS4xMnEtLjEyLS4xMzQtLjEyLS4zMDh0LjEyLS4zMDhsMy40My0zLjQzcS4xMzMtLjEyLjMwNy0uMTJ0LjMwOC4xMnEuMTIyLjEzNS4xMjIuMzF0LS4xMi4zMDd6Ii8+PC9zdmc+\");\n  background-size: 14px;\n}\n\n.IconButton__icon-image___1gW7U {\n  background-image: url(\"data:image/svg+xml;utf8;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iaXNvLTg4NTktMSI/Pgo8IS0tIEdlbmVyYXRvcjogQWRvYmUgSWxsdXN0cmF0b3IgMTYuMC4wLCBTVkcgRXhwb3J0IFBsdWctSW4gLiBTVkcgVmVyc2lvbjogNi4wMCBCdWlsZCAwKSAgLS0+CjwhRE9DVFlQRSBzdmcgUFVCTElDICItLy9XM0MvL0RURCBTVkcgMS4xLy9FTiIgImh0dHA6Ly93d3cudzMub3JnL0dyYXBoaWNzL1NWRy8xLjEvRFREL3N2ZzExLmR0ZCI+CjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgdmVyc2lvbj0iMS4xIiBpZD0iQ2FwYV8xIiB4PSIwcHgiIHk9IjBweCIgd2lkdGg9IjUxMnB4IiBoZWlnaHQ9IjUxMnB4IiB2aWV3Qm94PSIwIDAgNTMzLjMzMyA1MzMuMzM0IiBzdHlsZT0iZW5hYmxlLWJhY2tncm91bmQ6bmV3IDAgMCA1MzMuMzMzIDUzMy4zMzQ7IiB4bWw6c3BhY2U9InByZXNlcnZlIj4KPGc+Cgk8cGF0aCBkPSJNNDY2LjY2NywxMDBoLTQwMHYzMzMuMzMzaDQwMFYxMDB6IE01MzMuMzMzLDMzLjMzM0w1MzMuMzMzLDMzLjMzM1Y1MDBIMFYzMy4zMzNINTMzLjMzM3ogTTQzMy4zMzMsNDAwSDEwMHYtNjYuNjY3ICAgbDEwMC0xNjYuNjY3bDEzNi45NzksMTY2LjY2N2w5Ni4zNTQtNjYuNjY2VjMwMFY0MDB6IE0zMzMuMzMzLDE4My4zMzNjMCwyNy42MTQsMjIuMzg2LDUwLDUwLDUwczUwLTIyLjM4Niw1MC01MHMtMjIuMzg2LTUwLTUwLTUwICAgUzMzMy4zMzMsMTU1LjcxOSwzMzMuMzMzLDE4My4zMzN6IiBmaWxsPSIjMDAwMDAwIi8+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPC9zdmc+Cg==\");\n  background-size: 14px;\n}\n\n.IconButton__icon-cancel___fx4TT {\n  background-image: url(\"data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0Ij48cGF0aCBkPSJNMjMuNzggMTkuMjhMMTYuNSAxMmw3LjI4LTcuMjhhLjc0OC43NDggMCAwIDAgMC0xLjA2TDIwLjM0LjIxOGEuNzUuNzUgMCAwIDAtMS4wNi0uMDAyTDEyIDcuNDk4IDQuNzE3LjIyYS43NDguNzQ4IDAgMCAwLTEuMDYgMEwuMjE3IDMuNjZhLjc1Ljc1IDAgMCAwIDAgMS4wNkw3LjQ5NyAxMmwtNy4yOCA3LjI4YS43NDguNzQ4IDAgMCAwIDAgMS4wNmwzLjQ0IDMuNDRhLjc1Ljc1IDAgMCAwIDEuMDYuMDAybDcuMjgtNy4yOCA3LjI4MiA3LjI4Yy4wNzguMDc4LjE3LjEzNS4yNjguMTcuMjY3LjEuNTguMDQ0Ljc5My0uMTdsMy40NC0zLjQ0YS43NS43NSAwIDAgMCAwLTEuMDZ6Ii8+PC9zdmc+\");\n  background-size: 13px;\n}\n\n.IconButton__icon-accept___2D6M9 {\n  background-image: url(\"data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0Ij48cGF0aCBkPSJNMjAuMjUgM0w5IDE0LjI1IDMuNzUgOSAwIDEyLjc1bDkgOSAxNS0xNXoiLz48L3N2Zz4=\");\n  background-size: 13px;\n}\n", ""]);
 
 	// exports
 	exports.locals = {
-		"root": "IconButton__root___2awWb",
-		"icon": "IconButton__icon___2DdFx",
-		"isActive": "IconButton__isActive___2rZ4Z",
-		"icon-undo": "IconButton__icon-undo___2w6D8 IconButton__icon___2DdFx",
-		"icon-redo": "IconButton__icon-redo___Uq9D7 IconButton__icon___2DdFx",
-		"icon-unordered-list-item": "IconButton__icon-unordered-list-item___1cs8c IconButton__icon___2DdFx",
-		"icon-ordered-list-item": "IconButton__icon-ordered-list-item___3JgbM IconButton__icon___2DdFx",
-		"icon-blockquote": "IconButton__icon-blockquote___uz2D0 IconButton__icon___2DdFx",
-		"icon-bold": "IconButton__icon-bold___FMXgD IconButton__icon___2DdFx",
-		"icon-italic": "IconButton__icon-italic___2Tb_j IconButton__icon___2DdFx",
-		"icon-underline": "IconButton__icon-underline___23t7Y IconButton__icon___2DdFx",
-		"icon-strikethrough": "IconButton__icon-strikethrough___1Uq4O IconButton__icon___2DdFx",
-		"icon-code": "IconButton__icon-code___LWqTN IconButton__icon___2DdFx",
-		"icon-link": "IconButton__icon-link___2I96k IconButton__icon___2DdFx",
-		"icon-remove-link": "IconButton__icon-remove-link___2BnS8 IconButton__icon___2DdFx",
-		"icon-image": "IconButton__icon-image___2NVj8 IconButton__icon___2DdFx",
-		"icon-cancel": "IconButton__icon-cancel___1A6y8 IconButton__icon___2DdFx",
-		"icon-accept": "IconButton__icon-accept___2elsq IconButton__icon___2DdFx"
+		"root": "IconButton__root___3tqZW",
+		"icon": "IconButton__icon___3YgOS",
+		"isActive": "IconButton__isActive___2Ey8p",
+		"icon-undo": "IconButton__icon-undo___EQSRP IconButton__icon___3YgOS",
+		"icon-redo": "IconButton__icon-redo___30MVz IconButton__icon___3YgOS",
+		"icon-unordered-list-item": "IconButton__icon-unordered-list-item___Pvkrr IconButton__icon___3YgOS",
+		"icon-ordered-list-item": "IconButton__icon-ordered-list-item___2rzD0 IconButton__icon___3YgOS",
+		"icon-blockquote": "IconButton__icon-blockquote___17VSX IconButton__icon___3YgOS",
+		"icon-bold": "IconButton__icon-bold___2zl9t IconButton__icon___3YgOS",
+		"icon-italic": "IconButton__icon-italic___2hHzc IconButton__icon___3YgOS",
+		"icon-underline": "IconButton__icon-underline___2EmZJ IconButton__icon___3YgOS",
+		"icon-strikethrough": "IconButton__icon-strikethrough___QtE2X IconButton__icon___3YgOS",
+		"icon-code": "IconButton__icon-code___3F1pe IconButton__icon___3YgOS",
+		"icon-link": "IconButton__icon-link___2umEl IconButton__icon___3YgOS",
+		"icon-remove-link": "IconButton__icon-remove-link___j61pw IconButton__icon___3YgOS",
+		"icon-image": "IconButton__icon-image___1gW7U IconButton__icon___3YgOS",
+		"icon-cancel": "IconButton__icon-cancel___fx4TT IconButton__icon___3YgOS",
+		"icon-accept": "IconButton__icon-accept___2D6M9 IconButton__icon___3YgOS"
 	};
 
 /***/ },
@@ -20345,6 +20394,8 @@ module.exports =
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+	function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
+
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
@@ -20366,39 +20417,51 @@ module.exports =
 	  _createClass(PopoverIconButton, [{
 	    key: 'render',
 	    value: function render() {
-	      var props = this.props;
+	      var _props = this.props;
+	      var onTogglePopover = _props.onTogglePopover;
+	      var showPopover = _props.showPopover;
+
+	      var props = _objectWithoutProperties(_props, ['onTogglePopover', 'showPopover']); // eslint-disable-line no-unused-vars
+
 
 	      return _react2.default.createElement(
 	        _IconButton2.default,
-	        _extends({}, props, { onClick: this.props.onTogglePopover }),
+	        _extends({}, props, { onClick: onTogglePopover }),
 	        this._renderPopover()
 	      );
 	    }
 	  }, {
 	    key: '_renderPopover',
 	    value: function _renderPopover() {
+	      var children = this.props.children;
+
+
 	      if (!this.props.showPopover) {
 	        return null;
 	      }
-	      return _react2.default.createElement(_InputPopover2.default, {
-	        onSubmit: this._onSubmit,
-	        onCancel: this._hidePopover
-	      });
+	      return _react2.default.createElement(
+	        _InputPopover2.default,
+	        {
+	          onSubmit: this._onSubmit,
+	          onCancel: this._hidePopover
+	        },
+	        children
+	      );
 	    }
 	  }, {
 	    key: '_onSubmit',
 	    value: function _onSubmit() {
-	      var _props;
+	      var _props2;
 
-	      (_props = this.props).onSubmit.apply(_props, arguments);
+	      (_props2 = this.props).onSubmit.apply(_props2, arguments);
 	    }
 	  }, {
 	    key: '_hidePopover',
 	    value: function _hidePopover() {
 	      if (this.props.showPopover) {
-	        var _props2;
+	        var _props3;
 
-	        (_props2 = this.props).onTogglePopover.apply(_props2, arguments);
+	        (_props3 = this.props).onTogglePopover.apply(_props3, arguments);
 	      }
 	    }
 	  }]);
@@ -20492,17 +20555,22 @@ module.exports =
 	      var props = this.props;
 
 	      var className = (0, _classnames2.default)(props.className, _InputPopover2.default.root);
+	      var children = props.children;
+
+
 	      return _react2.default.createElement(
-	        'form',
-	        { className: className, onSubmit: this._onSubmit },
+	        'div',
+	        { className: className },
 	        _react2.default.createElement(
 	          'div',
 	          { className: _InputPopover2.default.inner },
+	          children,
 	          _react2.default.createElement('input', {
 	            ref: this._setInputRef,
 	            type: 'text',
 	            placeholder: 'https://example.com/',
-	            className: _InputPopover2.default.input
+	            className: _InputPopover2.default.input,
+	            onKeyPress: this._onInputKeyPress
 	          }),
 	          _react2.default.createElement(
 	            _ButtonGroup2.default,
@@ -20515,7 +20583,7 @@ module.exports =
 	            _react2.default.createElement(_IconButton2.default, {
 	              label: 'Submit',
 	              iconName: 'accept',
-	              formSubmit: true
+	              onClick: this._onSubmit
 	            })
 	          )
 	        )
@@ -20527,10 +20595,17 @@ module.exports =
 	      this._inputRef = inputElement;
 	    }
 	  }, {
+	    key: '_onInputKeyPress',
+	    value: function _onInputKeyPress(event) {
+	      if (event.which === 13) {
+	        // Avoid submitting a <form> somewhere up the element tree.
+	        event.preventDefault();
+	        this._onSubmit();
+	      }
+	    }
+	  }, {
 	    key: '_onSubmit',
-	    value: function _onSubmit(event) {
-	      event.preventDefault();
-	      event.stopPropagation();
+	    value: function _onSubmit() {
 	      var value = this._inputRef ? this._inputRef.value : '';
 	      this.props.onSubmit(value);
 	    }
@@ -20628,11 +20703,11 @@ module.exports =
 
 
 	// module
-	exports.push([module.id, ".ButtonGroup__root___2nXYD {\r\n  display: inline-block;\r\n  vertical-align: top;\r\n  margin: 0 5px 5px 0;\r\n  white-space: nowrap;\r\n}\r\n\r\n.ButtonGroup__root___2nXYD:last-child {\r\n  margin-right: 0;\r\n}\r\n\r\n/* TODO: remove all this child selector and tag selector stuff. */\r\n\r\n.ButtonGroup__root___2nXYD > div > button {\r\n  margin-right: 0;\r\n  border-radius: 0;\r\n}\r\n\r\n.ButtonGroup__root___2nXYD > div > button:focus {\r\n  position: relative;\r\n  z-index: 1;\r\n}\r\n\r\n.ButtonGroup__root___2nXYD > div:first-child > button {\r\n  border-top-left-radius: 2px;\r\n  border-bottom-left-radius: 2px;\r\n}\r\n\r\n.ButtonGroup__root___2nXYD > div + div > button {\r\n  border-left-width: 0;\r\n}\r\n\r\n.ButtonGroup__root___2nXYD > div:last-child > button {\r\n  border-top-right-radius: 2px;\r\n  border-bottom-right-radius: 2px;\r\n}\r\n", ""]);
+	exports.push([module.id, ".ButtonGroup__root___3lEAn {\n  display: inline-block;\n  vertical-align: top;\n  margin: 0 5px 5px 0;\n  white-space: nowrap;\n}\n\n.ButtonGroup__root___3lEAn:first-child {\n  margin-right: 0;\n}\n\n/* TODO: remove all this child selector and tag selector stuff. */\n\n.ButtonGroup__root___3lEAn > div > button {\n  margin-right: 0;\n  border-radius: 0;\n}\n\n.ButtonGroup__root___3lEAn > div > button:focus {\n  position: relative;\n  z-index: 1;\n}\n\n.ButtonGroup__root___3lEAn > div:last-child > button {\n  border-top-left-radius: 2px;\n  border-bottom-left-radius: 2px;\n}\n\n.ButtonGroup__root___3lEAn > div + div > button {\n  border-right-width: 0;\n}\n\n.ButtonGroup__root___3lEAn > div:first-child > button {\n  border-top-right-radius: 2px;\n  border-bottom-right-radius: 2px;\n}\n", ""]);
 
 	// exports
 	exports.locals = {
-		"root": "ButtonGroup__root___2nXYD"
+		"root": "ButtonGroup__root___3lEAn"
 	};
 
 /***/ },
@@ -20670,14 +20745,14 @@ module.exports =
 
 
 	// module
-	exports.push([module.id, ".InputPopover__root___sAIh7 {\r\n  position: absolute;\r\n  top: calc(100% + 5px);\r\n  left: 0;\r\n  width: 260px;\r\n  background: none #fdfdfd;\r\n  background: linear-gradient(to bottom, #fdfdfd 0%,#f6f7f8 100%);\r\n  border: 1px solid #999;\r\n  border-radius: 2px;\r\n  box-sizing: border-box;\r\n  padding: 4px;\r\n}\r\n\r\n.InputPopover__root___sAIh7:before {\r\n  content: \"\";\r\n  display: block;\r\n  position: absolute;\r\n  width: 0;\r\n  height: 0;\r\n  top: -10px;\r\n  left: 10px;\r\n  border: 5px solid transparent;\r\n  border-bottom-color: #999;\r\n}\r\n\r\n.InputPopover__root___sAIh7:after {\r\n  content: \"\";\r\n  display: block;\r\n  position: absolute;\r\n  width: 0;\r\n  height: 0;\r\n  top: -9px;\r\n  left: 10px;\r\n  border: 5px solid transparent;\r\n  border-bottom-color: #fdfdfd;\r\n}\r\n\r\n.InputPopover__inner___1sUSg {\r\n  display: flex;\r\n}\r\n\r\n.InputPopover__input___3QwmQ {\r\n  display: block;\r\n  flex: 1 0 auto;\r\n  height: 30px;\r\n  background: none white;\r\n  border: 1px solid #999;\r\n  border-radius: 2px;\r\n  box-sizing: border-box;\r\n  padding: 2px 6px;\r\n  font-family: inherit;\r\n  font-size: inherit;\r\n  line-height: 24px;\r\n}\r\n\r\n.InputPopover__inner___1sUSg .InputPopover__buttonGroup___3zSkK {\r\n  flex: 0 1 auto;\r\n  margin-left: 4px;\r\n  margin-bottom: 0;\r\n}\r\n", ""]);
+	exports.push([module.id, ".InputPopover__root___3Hpj9 {\n  position: absolute;\n  top: calc(100% + 5px);\n  left: 0;\n  width: 260px;\n  background: none #fdfdfd;\n  background: linear-gradient(to bottom, #fdfdfd 0%,#f6f7f8 100%);\n  border: 1px solid #999;\n  border-radius: 2px;\n  box-sizing: border-box;\n  padding: 4px;\n}\n\n.InputPopover__root___3Hpj9:before {\n  content: \"\";\n  display: block;\n  position: absolute;\n  width: 0;\n  height: 0;\n  top: -10px;\n  left: 10px;\n  border: 5px solid transparent;\n  border-bottom-color: #999;\n}\n\n.InputPopover__root___3Hpj9:after {\n  content: \"\";\n  display: block;\n  position: absolute;\n  width: 0;\n  height: 0;\n  top: -9px;\n  left: 10px;\n  border: 5px solid transparent;\n  border-bottom-color: #fdfdfd;\n}\n\n.InputPopover__inner___32V5P {\n  display: flex;\n  flex-wrap: wrap;\n}\n\n.InputPopover__input___264Za {\n  display: block;\n  flex: 1 0 auto;\n  height: 30px;\n  background: none white;\n  border: 1px solid #999;\n  border-radius: 2px;\n  box-sizing: border-box;\n  padding: 2px 6px;\n  font-family: inherit;\n  font-size: inherit;\n  line-height: 24px;\n  direction: ltr;\n}\n\n.InputPopover__inner___32V5P .InputPopover__buttonGroup___2c3Sl {\n  flex: 0 1 auto;\n  margin-left: 4px;\n  margin-bottom: 0;\n}\n", ""]);
 
 	// exports
 	exports.locals = {
-		"root": "InputPopover__root___sAIh7",
-		"inner": "InputPopover__inner___1sUSg",
-		"input": "InputPopover__input___3QwmQ",
-		"buttonGroup": "InputPopover__buttonGroup___3zSkK"
+		"root": "InputPopover__root___3Hpj9",
+		"inner": "InputPopover__inner___32V5P",
+		"input": "InputPopover__input___264Za",
+		"buttonGroup": "InputPopover__buttonGroup___2c3Sl"
 	};
 
 /***/ },
@@ -20830,12 +20905,12 @@ module.exports =
 
 
 	// module
-	exports.push([module.id, ".Dropdown__root___1B9ta {\r\n  display: inline-block;\r\n  position: relative;\r\n  line-height: 22px;\r\n  vertical-align: top;\r\n  -webkit-user-select: none;\r\n  -moz-user-select: none;\r\n  -ms-user-select: none;\r\n}\r\n\r\n.Dropdown__root___1B9ta select {\r\n  position: relative;\r\n  z-index: 2;\r\n  display: inline-block;\r\n  box-sizing: border-box;\r\n  height: 30px;\r\n  line-height: inherit;\r\n  font-family: inherit;\r\n  font-size: inherit;\r\n  color: inherit;\r\n  margin: 0;\r\n  padding: 0;\r\n  border: 4px solid transparent;\r\n  border-right-width: 10px;\r\n  border-left-width: 5px;\r\n  background: none transparent;\r\n  opacity: 0;\r\n  cursor: pointer;\r\n}\r\n\r\n.Dropdown__root___1B9ta .Dropdown__value___3gCvl {\r\n  display: block;\r\n  position: absolute;\r\n  z-index: 1;\r\n  left: 0;\r\n  top: 0;\r\n  right: 0;\r\n  bottom: 0;\r\n  line-height: 23px;\r\n  border: 1px solid #999;\r\n  border-radius: 2px;\r\n  padding: 3px;\r\n  padding-right: 33px;\r\n  padding-left: 12px;\r\n  white-space: nowrap;\r\n  text-overflow: ellipsis;\r\n}\r\n\r\n.Dropdown__root___1B9ta .Dropdown__value___3gCvl::before,\r\n.Dropdown__root___1B9ta .Dropdown__value___3gCvl::after {\r\n  display: block;\r\n  content: \"\";\r\n  position: absolute;\r\n  top: 50%;\r\n  right: 10px;\r\n  width: 0;\r\n  height: 0;\r\n  border: 4px solid transparent;\r\n}\r\n\r\n.Dropdown__root___1B9ta .Dropdown__value___3gCvl::before {\r\n  margin-top: -10px;\r\n  border-bottom-color: #555;\r\n}\r\n\r\n.Dropdown__root___1B9ta .Dropdown__value___3gCvl::after {\r\n  margin-top: 1px;\r\n  border-top-color: #555;\r\n}\r\n\r\n.Dropdown__root___1B9ta select:focus + .Dropdown__value___3gCvl {\r\n  border-color: #66afe9;\r\n}\r\n\r\n/* On Webkit we can style <select> to be transparant without turning off the\r\n   default focus styles. This is better for accessibility. */\r\n@media screen and (-webkit-min-device-pixel-ratio:0) {\r\n  .Dropdown__root___1B9ta select {\r\n    opacity: 1;\r\n    color: inherit;\r\n    -webkit-appearance: none;\r\n    border-left-width: 12px;\r\n    border-right-width: 35px;\r\n  }\r\n\r\n  .Dropdown__root___1B9ta select + .Dropdown__value___3gCvl {\r\n    color: transparent;\r\n  }\r\n\r\n  .Dropdown__root___1B9ta select:focus + .Dropdown__value___3gCvl {\r\n    border-color: #999;\r\n  }\r\n}\r\n", ""]);
+	exports.push([module.id, ".Dropdown__root___3ALmx {\n  display: inline-block;\n  position: relative;\n  line-height: 22px;\n  vertical-align: top;\n  -webkit-user-select: none;\n  -moz-user-select: none;\n  -ms-user-select: none;\n}\n\n.Dropdown__root___3ALmx select {\n  position: relative;\n  z-index: 2;\n  display: inline-block;\n  box-sizing: border-box;\n  height: 30px;\n  line-height: inherit;\n  font-family: inherit;\n  font-size: inherit;\n  color: inherit;\n  margin: 0;\n  padding: 0;\n  border: 4px solid transparent;\n  border-right-width: 10px;\n  border-left-width: 5px;\n  background: none transparent;\n  opacity: 0;\n  cursor: pointer;\n}\n\n.Dropdown__root___3ALmx .Dropdown__value___34Py9 {\n  display: block;\n  position: absolute;\n  z-index: 1;\n  left: 0;\n  top: 0;\n  right: 0;\n  bottom: 0;\n  line-height: 23px;\n  border: 1px solid #999;\n  border-radius: 2px;\n  padding: 3px;\n  padding-right: 33px;\n  padding-left: 12px;\n  white-space: nowrap;\n  text-overflow: ellipsis;\n}\n\n.Dropdown__root___3ALmx .Dropdown__value___34Py9::before,\n.Dropdown__root___3ALmx .Dropdown__value___34Py9::after {\n  display: block;\n  content: \"\";\n  position: absolute;\n  top: 50%;\n  right: 10px;\n  width: 0;\n  height: 0;\n  border: 4px solid transparent;\n}\n\n.Dropdown__root___3ALmx .Dropdown__value___34Py9::before {\n  margin-top: -10px;\n  border-bottom-color: #555;\n}\n\n.Dropdown__root___3ALmx .Dropdown__value___34Py9::after {\n  margin-top: 1px;\n  border-top-color: #555;\n}\n\n.Dropdown__root___3ALmx select:focus + .Dropdown__value___34Py9 {\n  border-color: #66afe9;\n}\n\n/* On Webkit we can style <select> to be transparant without turning off the\n   default focus styles. This is better for accessibility. */\n@media screen and (-webkit-min-device-pixel-ratio:0) {\n  .Dropdown__root___3ALmx select {\n    opacity: 1;\n    color: inherit;\n    -webkit-appearance: none;\n    border-left-width: 12px;\n    border-right-width: 35px;\n  }\n\n  .Dropdown__root___3ALmx select + .Dropdown__value___34Py9 {\n    color: transparent;\n  }\n\n  .Dropdown__root___3ALmx select:focus + .Dropdown__value___34Py9 {\n    border-color: #999;\n  }\n}\n", ""]);
 
 	// exports
 	exports.locals = {
-		"root": "Dropdown__root___1B9ta",
-		"value": "Dropdown__value___3gCvl"
+		"root": "Dropdown__root___3ALmx",
+		"value": "Dropdown__value___34Py9"
 	};
 
 /***/ },
@@ -20966,15 +21041,323 @@ module.exports =
 
 
 	// module
-	exports.push([module.id, ".EditorToolbar__root___1VC2v {\r\n  font-family: 'Helvetica', sans-serif;\r\n  font-size: 14px;\r\n  margin-bottom: -5px;\r\n  user-select: none;\r\n}\r\n", ""]);
+	exports.push([module.id, ".EditorToolbar__root___3_Aqz {\n  font-size: 14px;\n  margin-bottom: -5px;\n  user-select: none;\n}\n", ""]);
 
 	// exports
 	exports.locals = {
-		"root": "EditorToolbar__root___1VC2v"
+		"root": "EditorToolbar__root___3_Aqz"
 	};
 
 /***/ },
 /* 184 */
+/***/ function(module, exports) {
+
+	// Copyright Joyent, Inc. and other Node contributors.
+	//
+	// Permission is hereby granted, free of charge, to any person obtaining a
+	// copy of this software and associated documentation files (the
+	// "Software"), to deal in the Software without restriction, including
+	// without limitation the rights to use, copy, modify, merge, publish,
+	// distribute, sublicense, and/or sell copies of the Software, and to permit
+	// persons to whom the Software is furnished to do so, subject to the
+	// following conditions:
+	//
+	// The above copyright notice and this permission notice shall be included
+	// in all copies or substantial portions of the Software.
+	//
+	// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+	// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+	// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+	// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+	// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+	// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+	// USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+	function EventEmitter() {
+	  this._events = this._events || {};
+	  this._maxListeners = this._maxListeners || undefined;
+	}
+	module.exports = EventEmitter;
+
+	// Backwards-compat with node 0.10.x
+	EventEmitter.EventEmitter = EventEmitter;
+
+	EventEmitter.prototype._events = undefined;
+	EventEmitter.prototype._maxListeners = undefined;
+
+	// By default EventEmitters will print a warning if more than 10 listeners are
+	// added to it. This is a useful default which helps finding memory leaks.
+	EventEmitter.defaultMaxListeners = 10;
+
+	// Obviously not all Emitters should be limited to 10. This function allows
+	// that to be increased. Set to zero for unlimited.
+	EventEmitter.prototype.setMaxListeners = function(n) {
+	  if (!isNumber(n) || n < 0 || isNaN(n))
+	    throw TypeError('n must be a positive number');
+	  this._maxListeners = n;
+	  return this;
+	};
+
+	EventEmitter.prototype.emit = function(type) {
+	  var er, handler, len, args, i, listeners;
+
+	  if (!this._events)
+	    this._events = {};
+
+	  // If there is no 'error' event listener then throw.
+	  if (type === 'error') {
+	    if (!this._events.error ||
+	        (isObject(this._events.error) && !this._events.error.length)) {
+	      er = arguments[1];
+	      if (er instanceof Error) {
+	        throw er; // Unhandled 'error' event
+	      } else {
+	        // At least give some kind of context to the user
+	        var err = new Error('Uncaught, unspecified "error" event. (' + er + ')');
+	        err.context = er;
+	        throw err;
+	      }
+	    }
+	  }
+
+	  handler = this._events[type];
+
+	  if (isUndefined(handler))
+	    return false;
+
+	  if (isFunction(handler)) {
+	    switch (arguments.length) {
+	      // fast cases
+	      case 1:
+	        handler.call(this);
+	        break;
+	      case 2:
+	        handler.call(this, arguments[1]);
+	        break;
+	      case 3:
+	        handler.call(this, arguments[1], arguments[2]);
+	        break;
+	      // slower
+	      default:
+	        args = Array.prototype.slice.call(arguments, 1);
+	        handler.apply(this, args);
+	    }
+	  } else if (isObject(handler)) {
+	    args = Array.prototype.slice.call(arguments, 1);
+	    listeners = handler.slice();
+	    len = listeners.length;
+	    for (i = 0; i < len; i++)
+	      listeners[i].apply(this, args);
+	  }
+
+	  return true;
+	};
+
+	EventEmitter.prototype.addListener = function(type, listener) {
+	  var m;
+
+	  if (!isFunction(listener))
+	    throw TypeError('listener must be a function');
+
+	  if (!this._events)
+	    this._events = {};
+
+	  // To avoid recursion in the case that type === "newListener"! Before
+	  // adding it to the listeners, first emit "newListener".
+	  if (this._events.newListener)
+	    this.emit('newListener', type,
+	              isFunction(listener.listener) ?
+	              listener.listener : listener);
+
+	  if (!this._events[type])
+	    // Optimize the case of one listener. Don't need the extra array object.
+	    this._events[type] = listener;
+	  else if (isObject(this._events[type]))
+	    // If we've already got an array, just append.
+	    this._events[type].push(listener);
+	  else
+	    // Adding the second element, need to change to array.
+	    this._events[type] = [this._events[type], listener];
+
+	  // Check for listener leak
+	  if (isObject(this._events[type]) && !this._events[type].warned) {
+	    if (!isUndefined(this._maxListeners)) {
+	      m = this._maxListeners;
+	    } else {
+	      m = EventEmitter.defaultMaxListeners;
+	    }
+
+	    if (m && m > 0 && this._events[type].length > m) {
+	      this._events[type].warned = true;
+	      console.error('(node) warning: possible EventEmitter memory ' +
+	                    'leak detected. %d listeners added. ' +
+	                    'Use emitter.setMaxListeners() to increase limit.',
+	                    this._events[type].length);
+	      if (typeof console.trace === 'function') {
+	        // not supported in IE 10
+	        console.trace();
+	      }
+	    }
+	  }
+
+	  return this;
+	};
+
+	EventEmitter.prototype.on = EventEmitter.prototype.addListener;
+
+	EventEmitter.prototype.once = function(type, listener) {
+	  if (!isFunction(listener))
+	    throw TypeError('listener must be a function');
+
+	  var fired = false;
+
+	  function g() {
+	    this.removeListener(type, g);
+
+	    if (!fired) {
+	      fired = true;
+	      listener.apply(this, arguments);
+	    }
+	  }
+
+	  g.listener = listener;
+	  this.on(type, g);
+
+	  return this;
+	};
+
+	// emits a 'removeListener' event iff the listener was removed
+	EventEmitter.prototype.removeListener = function(type, listener) {
+	  var list, position, length, i;
+
+	  if (!isFunction(listener))
+	    throw TypeError('listener must be a function');
+
+	  if (!this._events || !this._events[type])
+	    return this;
+
+	  list = this._events[type];
+	  length = list.length;
+	  position = -1;
+
+	  if (list === listener ||
+	      (isFunction(list.listener) && list.listener === listener)) {
+	    delete this._events[type];
+	    if (this._events.removeListener)
+	      this.emit('removeListener', type, listener);
+
+	  } else if (isObject(list)) {
+	    for (i = length; i-- > 0;) {
+	      if (list[i] === listener ||
+	          (list[i].listener && list[i].listener === listener)) {
+	        position = i;
+	        break;
+	      }
+	    }
+
+	    if (position < 0)
+	      return this;
+
+	    if (list.length === 1) {
+	      list.length = 0;
+	      delete this._events[type];
+	    } else {
+	      list.splice(position, 1);
+	    }
+
+	    if (this._events.removeListener)
+	      this.emit('removeListener', type, listener);
+	  }
+
+	  return this;
+	};
+
+	EventEmitter.prototype.removeAllListeners = function(type) {
+	  var key, listeners;
+
+	  if (!this._events)
+	    return this;
+
+	  // not listening for removeListener, no need to emit
+	  if (!this._events.removeListener) {
+	    if (arguments.length === 0)
+	      this._events = {};
+	    else if (this._events[type])
+	      delete this._events[type];
+	    return this;
+	  }
+
+	  // emit removeListener for all listeners on all events
+	  if (arguments.length === 0) {
+	    for (key in this._events) {
+	      if (key === 'removeListener') continue;
+	      this.removeAllListeners(key);
+	    }
+	    this.removeAllListeners('removeListener');
+	    this._events = {};
+	    return this;
+	  }
+
+	  listeners = this._events[type];
+
+	  if (isFunction(listeners)) {
+	    this.removeListener(type, listeners);
+	  } else if (listeners) {
+	    // LIFO order
+	    while (listeners.length)
+	      this.removeListener(type, listeners[listeners.length - 1]);
+	  }
+	  delete this._events[type];
+
+	  return this;
+	};
+
+	EventEmitter.prototype.listeners = function(type) {
+	  var ret;
+	  if (!this._events || !this._events[type])
+	    ret = [];
+	  else if (isFunction(this._events[type]))
+	    ret = [this._events[type]];
+	  else
+	    ret = this._events[type].slice();
+	  return ret;
+	};
+
+	EventEmitter.prototype.listenerCount = function(type) {
+	  if (this._events) {
+	    var evlistener = this._events[type];
+
+	    if (isFunction(evlistener))
+	      return 1;
+	    else if (evlistener)
+	      return evlistener.length;
+	  }
+	  return 0;
+	};
+
+	EventEmitter.listenerCount = function(emitter, type) {
+	  return emitter.listenerCount(type);
+	};
+
+	function isFunction(arg) {
+	  return typeof arg === 'function';
+	}
+
+	function isNumber(arg) {
+	  return typeof arg === 'number';
+	}
+
+	function isObject(arg) {
+	  return typeof arg === 'object' && arg !== null;
+	}
+
+	function isUndefined(arg) {
+	  return arg === void 0;
+	}
+
+
+/***/ },
+/* 185 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -20987,13 +21370,13 @@ module.exports =
 
 	var _draftJs = __webpack_require__(2);
 
-	var _draftJsExportHtml = __webpack_require__(185);
+	var _draftJsExportHtml = __webpack_require__(186);
 
-	var _draftJsImportHtml = __webpack_require__(187);
+	var _draftJsImportHtml = __webpack_require__(188);
 
-	var _draftJsExportMarkdown = __webpack_require__(194);
+	var _draftJsExportMarkdown = __webpack_require__(195);
 
-	var _draftJsImportMarkdown = __webpack_require__(196);
+	var _draftJsImportMarkdown = __webpack_require__(197);
 
 	function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
@@ -21096,7 +21479,7 @@ module.exports =
 	}
 
 /***/ },
-/* 185 */
+/* 186 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -21105,7 +21488,7 @@ module.exports =
 	  value: true
 	});
 
-	var _stateToHTML = __webpack_require__(186);
+	var _stateToHTML = __webpack_require__(187);
 
 	Object.defineProperty(exports, 'stateToHTML', {
 	  enumerable: true,
@@ -21117,7 +21500,7 @@ module.exports =
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /***/ },
-/* 186 */
+/* 187 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -21472,7 +21855,8 @@ module.exports =
 	          return content;
 	        }).join('');
 	        var entity = entityKey ? _draftJs.Entity.get(entityKey) : null;
-	        var entityType = entity == null ? null : entity.getType();
+	        // Note: The `toUpperCase` below is for compatability with some libraries that use lower-case for image blocks.
+	        var entityType = entity == null ? null : entity.getType().toUpperCase();
 	        if (entityType != null && entityType === _draftJsUtils.ENTITY_TYPE.LINK) {
 	          var attrs = DATA_TO_ATTR.hasOwnProperty(entityType) ? DATA_TO_ATTR[entityType](entityType, entity) : null;
 	          var strAttrs = stringifyAttrs(attrs);
@@ -21565,7 +21949,7 @@ module.exports =
 	}
 
 /***/ },
-/* 187 */
+/* 188 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -21574,7 +21958,7 @@ module.exports =
 	  value: true
 	});
 
-	var _stateFromHTML = __webpack_require__(188);
+	var _stateFromHTML = __webpack_require__(189);
 
 	Object.defineProperty(exports, 'stateFromHTML', {
 	  enumerable: true,
@@ -21586,7 +21970,7 @@ module.exports =
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /***/ },
-/* 188 */
+/* 189 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -21596,9 +21980,9 @@ module.exports =
 	});
 	exports.default = stateFromHTML;
 
-	var _draftJsImportElement = __webpack_require__(189);
+	var _draftJsImportElement = __webpack_require__(190);
 
-	var _parseHTML = __webpack_require__(193);
+	var _parseHTML = __webpack_require__(194);
 
 	var _parseHTML2 = _interopRequireDefault(_parseHTML);
 
@@ -21611,7 +21995,7 @@ module.exports =
 	}
 
 /***/ },
-/* 189 */
+/* 190 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -21620,7 +22004,7 @@ module.exports =
 	  value: true
 	});
 
-	var _stateFromElement = __webpack_require__(190);
+	var _stateFromElement = __webpack_require__(191);
 
 	Object.defineProperty(exports, 'stateFromElement', {
 	  enumerable: true,
@@ -21632,7 +22016,7 @@ module.exports =
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /***/ },
-/* 190 */
+/* 191 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -21645,7 +22029,7 @@ module.exports =
 
 	exports.default = stateFromElement;
 
-	var _replaceTextWithMeta3 = __webpack_require__(191);
+	var _replaceTextWithMeta3 = __webpack_require__(192);
 
 	var _replaceTextWithMeta4 = _interopRequireDefault(_replaceTextWithMeta3);
 
@@ -21655,7 +22039,7 @@ module.exports =
 
 	var _draftJsUtils = __webpack_require__(147);
 
-	var _syntheticDom = __webpack_require__(192);
+	var _syntheticDom = __webpack_require__(193);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -21683,6 +22067,7 @@ module.exports =
 	// we put it there as a placeholder.
 	var SOFT_BREAK_PLACEHOLDER = '\r';
 	var ZERO_WIDTH_SPACE = '​';
+	var DATA_ATTRIBUTE = /^data-([a-z0-9-]+)$/;
 
 	// Map element attributes to entity data.
 	var ELEM_ATTR_MAP = {
@@ -21694,31 +22079,17 @@ module.exports =
 	  var data = {};
 	  if (ELEM_ATTR_MAP.hasOwnProperty(tagName)) {
 	    var attrMap = ELEM_ATTR_MAP[tagName];
-	    var _iteratorNormalCompletion = true;
-	    var _didIteratorError = false;
-	    var _iteratorError = undefined;
+	    for (var i = 0; i < element.attributes.length; i++) {
+	      var _element$attributes$i = element.attributes[i];
+	      var name = _element$attributes$i.name;
+	      var value = _element$attributes$i.value;
 
-	    try {
-	      for (var _iterator = Object.keys(attrMap)[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-	        var attr = _step.value;
-
-	        var dataKey = attrMap[attr];
-	        var dataValue = element.getAttribute(attr);
-	        if (dataValue != null) {
-	          data[dataKey] = dataValue;
-	        }
-	      }
-	    } catch (err) {
-	      _didIteratorError = true;
-	      _iteratorError = err;
-	    } finally {
-	      try {
-	        if (!_iteratorNormalCompletion && _iterator.return) {
-	          _iterator.return();
-	        }
-	      } finally {
-	        if (_didIteratorError) {
-	          throw _iteratorError;
+	      if (value != null) {
+	        if (attrMap.hasOwnProperty(name)) {
+	          var newName = attrMap[name];
+	          data[newName] = value;
+	        } else if (DATA_ATTRIBUTE.test(name)) {
+	          data[name] = value;
 	        }
 	      }
 	    }
@@ -21889,6 +22260,9 @@ module.exports =
 	  }, {
 	    key: 'processBlockElement',
 	    value: function processBlockElement(element) {
+	      if (!element) {
+	        return;
+	      }
 	      var tagName = element.nodeName.toLowerCase();
 	      var type = this.getBlockTypeFromTagName(tagName);
 	      var hasDepth = canHaveDepth(type);
@@ -22117,7 +22491,7 @@ module.exports =
 	}
 
 /***/ },
-/* 191 */
+/* 192 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -22159,7 +22533,7 @@ module.exports =
 	}
 
 /***/ },
-/* 192 */
+/* 193 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -22351,7 +22725,7 @@ module.exports =
 	}
 
 /***/ },
-/* 193 */
+/* 194 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -22373,7 +22747,7 @@ module.exports =
 	}
 
 /***/ },
-/* 194 */
+/* 195 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -22382,7 +22756,7 @@ module.exports =
 	  value: true
 	});
 
-	var _stateToMarkdown = __webpack_require__(195);
+	var _stateToMarkdown = __webpack_require__(196);
 
 	Object.defineProperty(exports, 'stateToMarkdown', {
 	  enumerable: true,
@@ -22394,7 +22768,7 @@ module.exports =
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /***/ },
-/* 195 */
+/* 196 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -22677,7 +23051,7 @@ module.exports =
 	}
 
 /***/ },
-/* 196 */
+/* 197 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -22686,7 +23060,7 @@ module.exports =
 	  value: true
 	});
 
-	var _stateFromMarkdown = __webpack_require__(197);
+	var _stateFromMarkdown = __webpack_require__(198);
 
 	Object.defineProperty(exports, 'stateFromMarkdown', {
 	  enumerable: true,
@@ -22698,7 +23072,7 @@ module.exports =
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /***/ },
-/* 197 */
+/* 198 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -22708,11 +23082,11 @@ module.exports =
 	});
 	exports.default = stateFromMarkdown;
 
-	var _MarkdownParser = __webpack_require__(198);
+	var _MarkdownParser = __webpack_require__(199);
 
 	var _MarkdownParser2 = _interopRequireDefault(_MarkdownParser);
 
-	var _draftJsImportElement = __webpack_require__(189);
+	var _draftJsImportElement = __webpack_require__(200);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -22722,7 +23096,7 @@ module.exports =
 	}
 
 /***/ },
-/* 198 */
+/* 199 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -22731,7 +23105,7 @@ module.exports =
 	  value: true
 	});
 
-	var _syntheticDom = __webpack_require__(192);
+	var _syntheticDom = __webpack_require__(193);
 
 	var hasOwnProperty = Object.prototype.hasOwnProperty; /**
 	                                                       * Ported from:
@@ -23553,7 +23927,555 @@ module.exports =
 	exports.default = MarkdownParser;
 
 /***/ },
-/* 199 */
+/* 200 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _stateFromElement = __webpack_require__(201);
+
+	Object.defineProperty(exports, 'stateFromElement', {
+	  enumerable: true,
+	  get: function get() {
+	    return _interopRequireDefault(_stateFromElement).default;
+	  }
+	});
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+/***/ },
+/* 201 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	exports.default = stateFromElement;
+
+	var _replaceTextWithMeta3 = __webpack_require__(202);
+
+	var _replaceTextWithMeta4 = _interopRequireDefault(_replaceTextWithMeta3);
+
+	var _draftJs = __webpack_require__(2);
+
+	var _immutable = __webpack_require__(5);
+
+	var _draftJsUtils = __webpack_require__(147);
+
+	var _syntheticDom = __webpack_require__(193);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	// A ParsedBlock has two purposes:
+	//   1) to keep data about the block (textFragments, type)
+	//   2) to act as some context for storing parser state as we parse its contents
+
+
+	var NO_STYLE = (0, _immutable.OrderedSet)();
+	var NO_ENTITY = null;
+
+	var EMPTY_BLOCK = new _draftJs.ContentBlock({
+	  key: (0, _draftJs.genKey)(),
+	  text: '',
+	  type: _draftJsUtils.BLOCK_TYPE.UNSTYLED,
+	  characterList: (0, _immutable.List)(),
+	  depth: 0
+	});
+
+	var LINE_BREAKS = /(\r\n|\r|\n)/g;
+	// We use `\r` because that character is always stripped from source (normalized
+	// to `\n`), so it's safe to assume it will only appear in the text content when
+	// we put it there as a placeholder.
+	var SOFT_BREAK_PLACEHOLDER = '\r';
+	var ZERO_WIDTH_SPACE = '​';
+
+	// Map element attributes to entity data.
+	var ELEM_ATTR_MAP = {
+	  a: { href: 'url', rel: 'rel', target: 'target', title: 'title' },
+	  img: { src: 'src', alt: 'alt' }
+	};
+
+	var getEntityData = function getEntityData(tagName, element) {
+	  var data = {};
+	  if (ELEM_ATTR_MAP.hasOwnProperty(tagName)) {
+	    var attrMap = ELEM_ATTR_MAP[tagName];
+	    var _iteratorNormalCompletion = true;
+	    var _didIteratorError = false;
+	    var _iteratorError = undefined;
+
+	    try {
+	      for (var _iterator = Object.keys(attrMap)[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+	        var attr = _step.value;
+
+	        var dataKey = attrMap[attr];
+	        var dataValue = element.getAttribute(attr);
+	        if (dataValue != null) {
+	          data[dataKey] = dataValue;
+	        }
+	      }
+	    } catch (err) {
+	      _didIteratorError = true;
+	      _iteratorError = err;
+	    } finally {
+	      try {
+	        if (!_iteratorNormalCompletion && _iterator.return) {
+	          _iterator.return();
+	        }
+	      } finally {
+	        if (_didIteratorError) {
+	          throw _iteratorError;
+	        }
+	      }
+	    }
+	  }
+	  return data;
+	};
+
+	// Functions to convert elements to entities.
+	var ELEM_TO_ENTITY = {
+	  a: function a(tagName, element) {
+	    var data = getEntityData(tagName, element);
+	    // Don't add `<a>` elements with no href.
+	    if (data.url != null) {
+	      return _draftJs.Entity.create(_draftJsUtils.ENTITY_TYPE.LINK, 'MUTABLE', data);
+	    }
+	  },
+	  img: function img(tagName, element) {
+	    var data = getEntityData(tagName, element);
+	    // Don't add `<img>` elements with no src.
+	    if (data.src != null) {
+	      return _draftJs.Entity.create(_draftJsUtils.ENTITY_TYPE.IMAGE, 'MUTABLE', data);
+	    }
+	  }
+	};
+
+	// TODO: Move this out to a module.
+	var INLINE_ELEMENTS = {
+	  a: 1, abbr: 1, area: 1, audio: 1, b: 1, bdi: 1, bdo: 1, br: 1, button: 1,
+	  canvas: 1, cite: 1, code: 1, command: 1, datalist: 1, del: 1, dfn: 1, em: 1,
+	  embed: 1, i: 1, iframe: 1, img: 1, input: 1, ins: 1, kbd: 1, keygen: 1,
+	  label: 1, map: 1, mark: 1, meter: 1, noscript: 1, object: 1, output: 1,
+	  progress: 1, q: 1, ruby: 1, s: 1, samp: 1, script: 1, select: 1, small: 1,
+	  span: 1, strong: 1, sub: 1, sup: 1, textarea: 1, time: 1, u: 1, var: 1,
+	  video: 1, wbr: 1, acronym: 1, applet: 1, basefont: 1, big: 1, font: 1,
+	  isindex: 1, strike: 1, style: 1, tt: 1
+	};
+
+	// These elements are special because they cannot contain text as a direct
+	// child (some cannot contain childNodes at all).
+	var SPECIAL_ELEMENTS = {
+	  area: 1, base: 1, br: 1, col: 1, colgroup: 1, command: 1, dl: 1, embed: 1,
+	  head: 1, hgroup: 1, hr: 1, iframe: 1, img: 1, input: 1, keygen: 1, link: 1,
+	  meta: 1, ol: 1, optgroup: 1, option: 1, param: 1, script: 1, select: 1,
+	  source: 1, style: 1, table: 1, tbody: 1, textarea: 1, tfoot: 1, thead: 1,
+	  title: 1, tr: 1, track: 1, ul: 1, wbr: 1, basefont: 1, dialog: 1, dir: 1,
+	  isindex: 1
+	};
+
+	// These elements are special because they cannot contain childNodes.
+	var SELF_CLOSING_ELEMENTS = { img: 1 };
+
+	var BlockGenerator = function () {
+	  function BlockGenerator() {
+	    var options = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+
+	    _classCallCheck(this, BlockGenerator);
+
+	    this.options = options;
+	    // This represents the hierarchy as we traverse nested elements; for
+	    // example [body, ul, li] where we must know li's parent type (ul or ol).
+	    this.blockStack = [];
+	    // This is a linear list of blocks that will form the output; for example
+	    // [p, li, li, blockquote].
+	    this.blockList = [];
+	    this.depth = 0;
+	  }
+
+	  _createClass(BlockGenerator, [{
+	    key: 'process',
+	    value: function process(element) {
+	      this.processBlockElement(element);
+	      var contentBlocks = [];
+	      this.blockList.forEach(function (block) {
+	        var _concatFragments = concatFragments(block.textFragments);
+
+	        var text = _concatFragments.text;
+	        var characterMeta = _concatFragments.characterMeta;
+
+	        var includeEmptyBlock = false;
+	        // If the block contains only a soft break then don't discard the block,
+	        // but discard the soft break.
+	        if (text === SOFT_BREAK_PLACEHOLDER) {
+	          includeEmptyBlock = true;
+	          text = '';
+	        }
+	        if (block.tagName === 'pre') {
+	          var _trimLeadingNewline = trimLeadingNewline(text, characterMeta);
+
+	          text = _trimLeadingNewline.text;
+	          characterMeta = _trimLeadingNewline.characterMeta;
+	        } else {
+	          var _collapseWhiteSpace = collapseWhiteSpace(text, characterMeta);
+
+	          text = _collapseWhiteSpace.text;
+	          characterMeta = _collapseWhiteSpace.characterMeta;
+	        }
+	        // Previously we were using a placeholder for soft breaks. Now that we
+	        // have collapsed whitespace we can change it back to normal line breaks.
+	        text = text.split(SOFT_BREAK_PLACEHOLDER).join('\n');
+	        // Discard empty blocks (unless otherwise specified).
+	        if (text.length || includeEmptyBlock) {
+	          contentBlocks.push(new _draftJs.ContentBlock({
+	            key: (0, _draftJs.genKey)(),
+	            text: text,
+	            type: block.type,
+	            characterList: characterMeta.toList(),
+	            depth: block.depth
+	          }));
+	        }
+	      });
+	      if (contentBlocks.length) {
+	        return contentBlocks;
+	      } else {
+	        return [EMPTY_BLOCK];
+	      }
+	    }
+	  }, {
+	    key: 'getBlockTypeFromTagName',
+	    value: function getBlockTypeFromTagName(tagName) {
+	      switch (tagName) {
+	        case 'li':
+	          {
+	            var parent = this.blockStack.slice(-1)[0];
+	            return parent.tagName === 'ol' ? _draftJsUtils.BLOCK_TYPE.ORDERED_LIST_ITEM : _draftJsUtils.BLOCK_TYPE.UNORDERED_LIST_ITEM;
+	          }
+	        case 'blockquote':
+	          {
+	            return _draftJsUtils.BLOCK_TYPE.BLOCKQUOTE;
+	          }
+	        case 'h1':
+	          {
+	            return _draftJsUtils.BLOCK_TYPE.HEADER_ONE;
+	          }
+	        case 'h2':
+	          {
+	            return _draftJsUtils.BLOCK_TYPE.HEADER_TWO;
+	          }
+	        case 'h3':
+	          {
+	            return _draftJsUtils.BLOCK_TYPE.HEADER_THREE;
+	          }
+	        case 'h4':
+	          {
+	            return _draftJsUtils.BLOCK_TYPE.HEADER_FOUR;
+	          }
+	        case 'h5':
+	          {
+	            return _draftJsUtils.BLOCK_TYPE.HEADER_FIVE;
+	          }
+	        case 'h6':
+	          {
+	            return _draftJsUtils.BLOCK_TYPE.HEADER_SIX;
+	          }
+	        case 'pre':
+	          {
+	            return _draftJsUtils.BLOCK_TYPE.CODE;
+	          }
+	        case 'figure':
+	          {
+	            return _draftJsUtils.BLOCK_TYPE.ATOMIC;
+	          }
+	        default:
+	          {
+	            return _draftJsUtils.BLOCK_TYPE.UNSTYLED;
+	          }
+	      }
+	    }
+	  }, {
+	    key: 'processBlockElement',
+	    value: function processBlockElement(element) {
+	      var tagName = element.nodeName.toLowerCase();
+	      var type = this.getBlockTypeFromTagName(tagName);
+	      var hasDepth = canHaveDepth(type);
+	      var allowRender = !SPECIAL_ELEMENTS.hasOwnProperty(tagName);
+	      var block = {
+	        tagName: tagName,
+	        textFragments: [],
+	        type: type,
+	        styleStack: [NO_STYLE],
+	        entityStack: [NO_ENTITY],
+	        depth: hasDepth ? this.depth : 0
+	      };
+	      if (allowRender) {
+	        this.blockList.push(block);
+	        if (hasDepth) {
+	          this.depth += 1;
+	        }
+	      }
+	      this.blockStack.push(block);
+	      if (element.childNodes != null) {
+	        Array.from(element.childNodes).forEach(this.processNode, this);
+	      }
+	      this.blockStack.pop();
+	      if (allowRender && hasDepth) {
+	        this.depth -= 1;
+	      }
+	    }
+	  }, {
+	    key: 'processInlineElement',
+	    value: function processInlineElement(element) {
+	      var tagName = element.nodeName.toLowerCase();
+	      if (tagName === 'br') {
+	        this.processText(SOFT_BREAK_PLACEHOLDER);
+	        return;
+	      }
+	      var block = this.blockStack.slice(-1)[0];
+	      var style = block.styleStack.slice(-1)[0];
+	      var entityKey = block.entityStack.slice(-1)[0];
+	      style = addStyleFromTagName(style, tagName, this.options.elementStyles);
+	      if (ELEM_TO_ENTITY.hasOwnProperty(tagName)) {
+	        // If the to-entity function returns nothing, use the existing entity.
+	        entityKey = ELEM_TO_ENTITY[tagName](tagName, element) || entityKey;
+	      }
+	      block.styleStack.push(style);
+	      block.entityStack.push(entityKey);
+	      if (element.childNodes != null) {
+	        Array.from(element.childNodes).forEach(this.processNode, this);
+	      }
+	      if (SELF_CLOSING_ELEMENTS.hasOwnProperty(tagName)) {
+	        this.processText('~');
+	      }
+	      block.entityStack.pop();
+	      block.styleStack.pop();
+	    }
+	  }, {
+	    key: 'processTextNode',
+	    value: function processTextNode(node) {
+	      var text = node.nodeValue;
+	      // This is important because we will use \r as a placeholder for a soft break.
+	      text = text.replace(LINE_BREAKS, '\n');
+	      // Replace zero-width space (we use it as a placeholder in markdown) with a
+	      // soft break.
+	      // TODO: The import-markdown package should correctly turn breaks into <br>
+	      // elements so we don't need to include this hack.
+	      text = text.split(ZERO_WIDTH_SPACE).join(SOFT_BREAK_PLACEHOLDER);
+	      this.processText(text);
+	    }
+	  }, {
+	    key: 'processText',
+	    value: function processText(text) {
+	      var block = this.blockStack.slice(-1)[0];
+	      var style = block.styleStack.slice(-1)[0];
+	      var entity = block.entityStack.slice(-1)[0];
+	      var charMetadata = _draftJs.CharacterMetadata.create({
+	        style: style,
+	        entity: entity
+	      });
+	      var seq = (0, _immutable.Repeat)(charMetadata, text.length);
+	      block.textFragments.push({
+	        text: text,
+	        characterMeta: seq
+	      });
+	    }
+	  }, {
+	    key: 'processNode',
+	    value: function processNode(node) {
+	      if (node.nodeType === _syntheticDom.NODE_TYPE_ELEMENT) {
+	        var element = node;
+	        var _tagName = element.nodeName.toLowerCase();
+	        if (INLINE_ELEMENTS.hasOwnProperty(_tagName)) {
+	          this.processInlineElement(element);
+	        } else {
+	          this.processBlockElement(element);
+	        }
+	      } else if (node.nodeType === _syntheticDom.NODE_TYPE_TEXT) {
+	        this.processTextNode(node);
+	      }
+	    }
+	  }]);
+
+	  return BlockGenerator;
+	}();
+
+	function trimLeadingNewline(text, characterMeta) {
+	  if (text.charAt(0) === '\n') {
+	    text = text.slice(1);
+	    characterMeta = characterMeta.slice(1);
+	  }
+	  return { text: text, characterMeta: characterMeta };
+	}
+
+	function trimLeadingSpace(text, characterMeta) {
+	  while (text.charAt(0) === ' ') {
+	    text = text.slice(1);
+	    characterMeta = characterMeta.slice(1);
+	  }
+	  return { text: text, characterMeta: characterMeta };
+	}
+
+	function trimTrailingSpace(text, characterMeta) {
+	  while (text.slice(-1) === ' ') {
+	    text = text.slice(0, -1);
+	    characterMeta = characterMeta.slice(0, -1);
+	  }
+	  return { text: text, characterMeta: characterMeta };
+	}
+
+	function collapseWhiteSpace(text, characterMeta) {
+	  text = text.replace(/[ \t\n]/g, ' ');
+
+	  var _trimLeadingSpace = trimLeadingSpace(text, characterMeta);
+
+	  text = _trimLeadingSpace.text;
+	  characterMeta = _trimLeadingSpace.characterMeta;
+
+	  var _trimTrailingSpace = trimTrailingSpace(text, characterMeta);
+
+	  text = _trimTrailingSpace.text;
+	  characterMeta = _trimTrailingSpace.characterMeta;
+
+	  var i = text.length;
+	  while (i--) {
+	    if (text.charAt(i) === ' ' && text.charAt(i - 1) === ' ') {
+	      text = text.slice(0, i) + text.slice(i + 1);
+	      characterMeta = characterMeta.slice(0, i).concat(characterMeta.slice(i + 1));
+	    }
+	  }
+	  // There could still be one space on either side of a softbreak.
+
+	  var _replaceTextWithMeta = (0, _replaceTextWithMeta4.default)({ text: text, characterMeta: characterMeta }, SOFT_BREAK_PLACEHOLDER + ' ', SOFT_BREAK_PLACEHOLDER);
+
+	  text = _replaceTextWithMeta.text;
+	  characterMeta = _replaceTextWithMeta.characterMeta;
+
+	  var _replaceTextWithMeta2 = (0, _replaceTextWithMeta4.default)({ text: text, characterMeta: characterMeta }, ' ' + SOFT_BREAK_PLACEHOLDER, SOFT_BREAK_PLACEHOLDER);
+
+	  text = _replaceTextWithMeta2.text;
+	  characterMeta = _replaceTextWithMeta2.characterMeta;
+
+	  return { text: text, characterMeta: characterMeta };
+	}
+
+	function canHaveDepth(blockType) {
+	  switch (blockType) {
+	    case _draftJsUtils.BLOCK_TYPE.UNORDERED_LIST_ITEM:
+	    case _draftJsUtils.BLOCK_TYPE.ORDERED_LIST_ITEM:
+	      {
+	        return true;
+	      }
+	    default:
+	      {
+	        return false;
+	      }
+	  }
+	}
+
+	function concatFragments(fragments) {
+	  var text = '';
+	  var characterMeta = (0, _immutable.Seq)();
+	  fragments.forEach(function (textFragment) {
+	    text = text + textFragment.text;
+	    characterMeta = characterMeta.concat(textFragment.characterMeta);
+	  });
+	  return { text: text, characterMeta: characterMeta };
+	}
+
+	function addStyleFromTagName(styleSet, tagName, elementStyles) {
+	  switch (tagName) {
+	    case 'b':
+	    case 'strong':
+	      {
+	        return styleSet.add(_draftJsUtils.INLINE_STYLE.BOLD);
+	      }
+	    case 'i':
+	    case 'em':
+	      {
+	        return styleSet.add(_draftJsUtils.INLINE_STYLE.ITALIC);
+	      }
+	    case 'ins':
+	      {
+	        return styleSet.add(_draftJsUtils.INLINE_STYLE.UNDERLINE);
+	      }
+	    case 'code':
+	      {
+	        return styleSet.add(_draftJsUtils.INLINE_STYLE.CODE);
+	      }
+	    case 'del':
+	      {
+	        return styleSet.add(_draftJsUtils.INLINE_STYLE.STRIKETHROUGH);
+	      }
+	    default:
+	      {
+	        // Allow custom styles to be provided.
+	        if (elementStyles && elementStyles[tagName]) {
+	          return styleSet.add(elementStyles[tagName]);
+	        }
+
+	        return styleSet;
+	      }
+	  }
+	}
+
+	function stateFromElement(element, options) {
+	  var blocks = new BlockGenerator(options).process(element);
+	  return _draftJs.ContentState.createFromBlockArray(blocks);
+	}
+
+/***/ },
+/* 202 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.default = replaceTextWithMeta;
+	function replaceTextWithMeta(subject, searchText, replaceText) {
+	  var text = subject.text;
+	  var characterMeta = subject.characterMeta;
+
+	  var searchTextLength = searchText.length;
+	  var replaceTextLength = replaceText.length;
+	  var resultTextParts = [];
+	  // Get empty set of same kind as characterMeta.
+	  var resultCharMeta = characterMeta.slice(0, 0);
+	  var lastEndIndex = 0;
+	  var index = text.indexOf(searchText);
+	  while (index !== -1) {
+	    resultTextParts.push(text.slice(lastEndIndex, index) + replaceText);
+	    resultCharMeta = resultCharMeta.concat(characterMeta.slice(lastEndIndex, index),
+	    // Use the metadata of the first char we are replacing.
+	    repeatSeq(characterMeta.slice(index, index + 1), replaceTextLength));
+	    lastEndIndex = index + searchTextLength;
+	    index = text.indexOf(searchText, lastEndIndex);
+	  }
+	  resultTextParts.push(text.slice(lastEndIndex));
+	  resultCharMeta = resultCharMeta.concat(characterMeta.slice(lastEndIndex));
+	  return { text: resultTextParts.join(''), characterMeta: resultCharMeta };
+	}
+
+	function repeatSeq(seq, count) {
+	  var result = seq.slice(0, 0);
+	  while (count-- > 0) {
+	    result = result.concat(seq);
+	  }
+	  return result;
+	}
+
+/***/ },
+/* 203 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -23600,7 +24522,7 @@ module.exports =
 	};
 
 /***/ },
-/* 200 */
+/* 204 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -23609,7 +24531,7 @@ module.exports =
 	  value: true
 	});
 
-	var _ImageSpan = __webpack_require__(201);
+	var _ImageSpan = __webpack_require__(205);
 
 	var _ImageSpan2 = _interopRequireDefault(_ImageSpan);
 
@@ -23632,7 +24554,7 @@ module.exports =
 	};
 
 /***/ },
-/* 201 */
+/* 205 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -23657,7 +24579,7 @@ module.exports =
 
 	var _draftJs = __webpack_require__(2);
 
-	var _ImageSpan = __webpack_require__(202);
+	var _ImageSpan = __webpack_require__(206);
 
 	var _ImageSpan2 = _interopRequireDefault(_ImageSpan);
 
@@ -23787,13 +24709,13 @@ module.exports =
 	exports.default = ImageSpan;
 
 /***/ },
-/* 202 */
+/* 206 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(203);
+	var content = __webpack_require__(207);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(164)(content, {"sourceMap":true});
@@ -23813,7 +24735,7 @@ module.exports =
 	}
 
 /***/ },
-/* 203 */
+/* 207 */
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(163)();
@@ -23821,327 +24743,23 @@ module.exports =
 
 
 	// module
-	exports.push([module.id, ".ImageSpan__root___UNCON {\r\n  background-repeat: no-repeat;\r\n  display: inline-block;\r\n  overflow: hidden;\r\n  cursor: pointer;\r\n}\r\n\r\n.ImageSpan__resize___2PEqf {\r\n  border: 1px dashed #78a300;\r\n  position: relative;\r\n  max-width: 100%;\r\n  display: inline-block;\r\n  line-height: 0;\r\n  top: -1px;\r\n  left: -1px,\r\n}\r\n\r\n.ImageSpan__resizeHandle___2JBaV {\r\n  cursor: nwse-resize;\r\n  position: absolute;\r\n  z-index: 2;\r\n  line-height: 1;\r\n  bottom: -4px;\r\n  right: -5px;\r\n  border: 1px solid white;\r\n  background-color: #78a300;\r\n  width: 8px;\r\n  height: 8px;\r\n}\r\n", ""]);
+	exports.push([module.id, ".ImageSpan__root___RoAqL {\n  background-repeat: no-repeat;\n  display: inline-block;\n  overflow: hidden;\n  cursor: pointer;\n}\n\n.ImageSpan__resize___1Hx5M {\n  border: 1px dashed #78a300;\n  position: relative;\n  max-width: 100%;\n  display: inline-block;\n  line-height: 0;\n  top: -1px;\n  left: -1px,\n}\n\n.ImageSpan__resizeHandle___18rou {\n  cursor: nwse-resize;\n  position: absolute;\n  z-index: 2;\n  line-height: 1;\n  bottom: -4px;\n  right: -5px;\n  border: 1px solid white;\n  background-color: #78a300;\n  width: 8px;\n  height: 8px;\n}\n", ""]);
 
 	// exports
 	exports.locals = {
-		"root": "ImageSpan__root___UNCON",
-		"resize": "ImageSpan__resize___2PEqf",
-		"resizeHandle": "ImageSpan__resizeHandle___2JBaV"
+		"root": "ImageSpan__root___RoAqL",
+		"resize": "ImageSpan__resize___1Hx5M",
+		"resizeHandle": "ImageSpan__resizeHandle___18rou"
 	};
 
 /***/ },
-/* 204 */
-/***/ function(module, exports) {
-
-	// Copyright Joyent, Inc. and other Node contributors.
-	//
-	// Permission is hereby granted, free of charge, to any person obtaining a
-	// copy of this software and associated documentation files (the
-	// "Software"), to deal in the Software without restriction, including
-	// without limitation the rights to use, copy, modify, merge, publish,
-	// distribute, sublicense, and/or sell copies of the Software, and to permit
-	// persons to whom the Software is furnished to do so, subject to the
-	// following conditions:
-	//
-	// The above copyright notice and this permission notice shall be included
-	// in all copies or substantial portions of the Software.
-	//
-	// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
-	// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-	// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
-	// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-	// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
-	// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
-	// USE OR OTHER DEALINGS IN THE SOFTWARE.
-
-	function EventEmitter() {
-	  this._events = this._events || {};
-	  this._maxListeners = this._maxListeners || undefined;
-	}
-	module.exports = EventEmitter;
-
-	// Backwards-compat with node 0.10.x
-	EventEmitter.EventEmitter = EventEmitter;
-
-	EventEmitter.prototype._events = undefined;
-	EventEmitter.prototype._maxListeners = undefined;
-
-	// By default EventEmitters will print a warning if more than 10 listeners are
-	// added to it. This is a useful default which helps finding memory leaks.
-	EventEmitter.defaultMaxListeners = 10;
-
-	// Obviously not all Emitters should be limited to 10. This function allows
-	// that to be increased. Set to zero for unlimited.
-	EventEmitter.prototype.setMaxListeners = function(n) {
-	  if (!isNumber(n) || n < 0 || isNaN(n))
-	    throw TypeError('n must be a positive number');
-	  this._maxListeners = n;
-	  return this;
-	};
-
-	EventEmitter.prototype.emit = function(type) {
-	  var er, handler, len, args, i, listeners;
-
-	  if (!this._events)
-	    this._events = {};
-
-	  // If there is no 'error' event listener then throw.
-	  if (type === 'error') {
-	    if (!this._events.error ||
-	        (isObject(this._events.error) && !this._events.error.length)) {
-	      er = arguments[1];
-	      if (er instanceof Error) {
-	        throw er; // Unhandled 'error' event
-	      }
-	      throw TypeError('Uncaught, unspecified "error" event.');
-	    }
-	  }
-
-	  handler = this._events[type];
-
-	  if (isUndefined(handler))
-	    return false;
-
-	  if (isFunction(handler)) {
-	    switch (arguments.length) {
-	      // fast cases
-	      case 1:
-	        handler.call(this);
-	        break;
-	      case 2:
-	        handler.call(this, arguments[1]);
-	        break;
-	      case 3:
-	        handler.call(this, arguments[1], arguments[2]);
-	        break;
-	      // slower
-	      default:
-	        args = Array.prototype.slice.call(arguments, 1);
-	        handler.apply(this, args);
-	    }
-	  } else if (isObject(handler)) {
-	    args = Array.prototype.slice.call(arguments, 1);
-	    listeners = handler.slice();
-	    len = listeners.length;
-	    for (i = 0; i < len; i++)
-	      listeners[i].apply(this, args);
-	  }
-
-	  return true;
-	};
-
-	EventEmitter.prototype.addListener = function(type, listener) {
-	  var m;
-
-	  if (!isFunction(listener))
-	    throw TypeError('listener must be a function');
-
-	  if (!this._events)
-	    this._events = {};
-
-	  // To avoid recursion in the case that type === "newListener"! Before
-	  // adding it to the listeners, first emit "newListener".
-	  if (this._events.newListener)
-	    this.emit('newListener', type,
-	              isFunction(listener.listener) ?
-	              listener.listener : listener);
-
-	  if (!this._events[type])
-	    // Optimize the case of one listener. Don't need the extra array object.
-	    this._events[type] = listener;
-	  else if (isObject(this._events[type]))
-	    // If we've already got an array, just append.
-	    this._events[type].push(listener);
-	  else
-	    // Adding the second element, need to change to array.
-	    this._events[type] = [this._events[type], listener];
-
-	  // Check for listener leak
-	  if (isObject(this._events[type]) && !this._events[type].warned) {
-	    if (!isUndefined(this._maxListeners)) {
-	      m = this._maxListeners;
-	    } else {
-	      m = EventEmitter.defaultMaxListeners;
-	    }
-
-	    if (m && m > 0 && this._events[type].length > m) {
-	      this._events[type].warned = true;
-	      console.error('(node) warning: possible EventEmitter memory ' +
-	                    'leak detected. %d listeners added. ' +
-	                    'Use emitter.setMaxListeners() to increase limit.',
-	                    this._events[type].length);
-	      if (typeof console.trace === 'function') {
-	        // not supported in IE 10
-	        console.trace();
-	      }
-	    }
-	  }
-
-	  return this;
-	};
-
-	EventEmitter.prototype.on = EventEmitter.prototype.addListener;
-
-	EventEmitter.prototype.once = function(type, listener) {
-	  if (!isFunction(listener))
-	    throw TypeError('listener must be a function');
-
-	  var fired = false;
-
-	  function g() {
-	    this.removeListener(type, g);
-
-	    if (!fired) {
-	      fired = true;
-	      listener.apply(this, arguments);
-	    }
-	  }
-
-	  g.listener = listener;
-	  this.on(type, g);
-
-	  return this;
-	};
-
-	// emits a 'removeListener' event iff the listener was removed
-	EventEmitter.prototype.removeListener = function(type, listener) {
-	  var list, position, length, i;
-
-	  if (!isFunction(listener))
-	    throw TypeError('listener must be a function');
-
-	  if (!this._events || !this._events[type])
-	    return this;
-
-	  list = this._events[type];
-	  length = list.length;
-	  position = -1;
-
-	  if (list === listener ||
-	      (isFunction(list.listener) && list.listener === listener)) {
-	    delete this._events[type];
-	    if (this._events.removeListener)
-	      this.emit('removeListener', type, listener);
-
-	  } else if (isObject(list)) {
-	    for (i = length; i-- > 0;) {
-	      if (list[i] === listener ||
-	          (list[i].listener && list[i].listener === listener)) {
-	        position = i;
-	        break;
-	      }
-	    }
-
-	    if (position < 0)
-	      return this;
-
-	    if (list.length === 1) {
-	      list.length = 0;
-	      delete this._events[type];
-	    } else {
-	      list.splice(position, 1);
-	    }
-
-	    if (this._events.removeListener)
-	      this.emit('removeListener', type, listener);
-	  }
-
-	  return this;
-	};
-
-	EventEmitter.prototype.removeAllListeners = function(type) {
-	  var key, listeners;
-
-	  if (!this._events)
-	    return this;
-
-	  // not listening for removeListener, no need to emit
-	  if (!this._events.removeListener) {
-	    if (arguments.length === 0)
-	      this._events = {};
-	    else if (this._events[type])
-	      delete this._events[type];
-	    return this;
-	  }
-
-	  // emit removeListener for all listeners on all events
-	  if (arguments.length === 0) {
-	    for (key in this._events) {
-	      if (key === 'removeListener') continue;
-	      this.removeAllListeners(key);
-	    }
-	    this.removeAllListeners('removeListener');
-	    this._events = {};
-	    return this;
-	  }
-
-	  listeners = this._events[type];
-
-	  if (isFunction(listeners)) {
-	    this.removeListener(type, listeners);
-	  } else if (listeners) {
-	    // LIFO order
-	    while (listeners.length)
-	      this.removeListener(type, listeners[listeners.length - 1]);
-	  }
-	  delete this._events[type];
-
-	  return this;
-	};
-
-	EventEmitter.prototype.listeners = function(type) {
-	  var ret;
-	  if (!this._events || !this._events[type])
-	    ret = [];
-	  else if (isFunction(this._events[type]))
-	    ret = [this._events[type]];
-	  else
-	    ret = this._events[type].slice();
-	  return ret;
-	};
-
-	EventEmitter.prototype.listenerCount = function(type) {
-	  if (this._events) {
-	    var evlistener = this._events[type];
-
-	    if (isFunction(evlistener))
-	      return 1;
-	    else if (evlistener)
-	      return evlistener.length;
-	  }
-	  return 0;
-	};
-
-	EventEmitter.listenerCount = function(emitter, type) {
-	  return emitter.listenerCount(type);
-	};
-
-	function isFunction(arg) {
-	  return typeof arg === 'function';
-	}
-
-	function isNumber(arg) {
-	  return typeof arg === 'number';
-	}
-
-	function isObject(arg) {
-	  return typeof arg === 'object' && arg !== null;
-	}
-
-	function isUndefined(arg) {
-	  return arg === void 0;
-	}
-
-
-/***/ },
-/* 205 */
+/* 208 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(206);
+	var content = __webpack_require__(209);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(164)(content, {});
@@ -24161,19 +24779,19 @@ module.exports =
 	}
 
 /***/ },
-/* 206 */
+/* 209 */
 /***/ function(module, exports) {
 
-	module.exports = "/**\r\n * We inherit the height of the container by default\r\n */\r\n\r\n.DraftEditor-root,\r\n.DraftEditor-editorContainer,\r\n.public-DraftEditor-content {\r\n  height: inherit;\r\n  text-align: initial;\r\n}\r\n\r\n.DraftEditor-root {\r\n  position: relative;\r\n}\r\n\r\n/**\r\n * Zero-opacity background used to allow focus in IE. Otherwise, clicks\r\n * fall through to the placeholder.\r\n */\r\n\r\n.DraftEditor-editorContainer {\r\n  background-color: rgba(255, 255, 255, 0);\r\n  /* Repair mysterious missing Safari cursor */\r\n  border-left: 0.1px solid transparent;\r\n  position: relative;\r\n  z-index: 1;\r\n}\r\n\r\n.public-DraftEditor-content {\r\n  outline: none;\r\n  white-space: pre-wrap;\r\n}\r\n\r\n.public-DraftEditor-block {\r\n  position: relative;\r\n}\r\n\r\n.DraftEditor-alignLeft .public-DraftEditor-block {\r\n  text-align: left;\r\n}\r\n\r\n.DraftEditor-alignLeft .public-DraftEditorPlaceholder-root {\r\n  left: 0;\r\n  text-align: left;\r\n}\r\n\r\n.DraftEditor-alignCenter .public-DraftEditor-block {\r\n  text-align: center;\r\n}\r\n\r\n.DraftEditor-alignCenter .public-DraftEditorPlaceholder-root {\r\n  margin: 0 auto;\r\n  text-align: center;\r\n  width: 100%;\r\n}\r\n\r\n.DraftEditor-alignRight .public-DraftEditor-block {\r\n  text-align: right;\r\n}\r\n\r\n.DraftEditor-alignRight .public-DraftEditorPlaceholder-root {\r\n  right: 0;\r\n  text-align: right;\r\n}\r\n/**\r\n * @providesModule DraftEditorPlaceholder\r\n */\r\n\r\n.public-DraftEditorPlaceholder-root {\r\n  color: #9197a3;\r\n  position: absolute;\r\n  z-index: 0;\r\n}\r\n\r\n.public-DraftEditorPlaceholder-hasFocus {\r\n  color: #bdc1c9;\r\n}\r\n\r\n.DraftEditorPlaceholder-hidden {\r\n  display: none;\r\n}\r\n/**\r\n * @providesModule DraftStyleDefault\r\n */\r\n\r\n.public-DraftStyleDefault-block {\r\n  position: relative;\r\n  white-space: pre-wrap;\r\n}\r\n\r\n/* @noflip */\r\n\r\n.public-DraftStyleDefault-ltr {\r\n  direction: ltr;\r\n  text-align: left;\r\n}\r\n\r\n/* @noflip */\r\n\r\n.public-DraftStyleDefault-rtl {\r\n  direction: rtl;\r\n  text-align: right;\r\n}\r\n\r\n/**\r\n * These rules provide appropriate text direction for counter pseudo-elements.\r\n */\r\n\r\n/* @noflip */\r\n\r\n.public-DraftStyleDefault-listLTR {\r\n  direction: ltr;\r\n}\r\n\r\n/* @noflip */\r\n\r\n.public-DraftStyleDefault-listRTL {\r\n  direction: rtl;\r\n}\r\n\r\n/**\r\n * Default spacing for list container elements. Override with CSS as needed.\r\n */\r\n\r\n.public-DraftStyleDefault-ul,\r\n.public-DraftStyleDefault-ol {\r\n  margin: 16px 0;\r\n  padding: 0;\r\n}\r\n\r\n/**\r\n * Default counters and styles are provided for five levels of nesting.\r\n * If you require nesting beyond that level, you should use your own CSS\r\n * classes to do so. If you care about handling RTL languages, the rules you\r\n * create should look a lot like these.\r\n */\r\n\r\n/* @noflip */\r\n\r\n.public-DraftStyleDefault-depth0.public-DraftStyleDefault-listLTR {\r\n  margin-left: 1.5em;\r\n}\r\n\r\n/* @noflip */\r\n\r\n.public-DraftStyleDefault-depth0.public-DraftStyleDefault-listRTL {\r\n  margin-right: 1.5em;\r\n}\r\n\r\n/* @noflip */\r\n\r\n.public-DraftStyleDefault-depth1.public-DraftStyleDefault-listLTR {\r\n  margin-left: 3em;\r\n}\r\n\r\n/* @noflip */\r\n\r\n.public-DraftStyleDefault-depth1.public-DraftStyleDefault-listRTL {\r\n  margin-right: 3em;\r\n}\r\n\r\n/* @noflip */\r\n\r\n.public-DraftStyleDefault-depth2.public-DraftStyleDefault-listLTR {\r\n  margin-left: 4.5em;\r\n}\r\n\r\n/* @noflip */\r\n\r\n.public-DraftStyleDefault-depth2.public-DraftStyleDefault-listRTL {\r\n  margin-right: 4.5em;\r\n}\r\n\r\n/* @noflip */\r\n\r\n.public-DraftStyleDefault-depth3.public-DraftStyleDefault-listLTR {\r\n  margin-left: 6em;\r\n}\r\n\r\n/* @noflip */\r\n\r\n.public-DraftStyleDefault-depth3.public-DraftStyleDefault-listRTL {\r\n  margin-right: 6em;\r\n}\r\n\r\n/* @noflip */\r\n\r\n.public-DraftStyleDefault-depth4.public-DraftStyleDefault-listLTR {\r\n  margin-left: 7.5em;\r\n}\r\n\r\n/* @noflip */\r\n\r\n.public-DraftStyleDefault-depth4.public-DraftStyleDefault-listRTL {\r\n  margin-right: 7.5em;\r\n}\r\n\r\n/**\r\n * Only use `square` list-style after the first two levels.\r\n */\r\n\r\n.public-DraftStyleDefault-unorderedListItem {\r\n  list-style-type: square;\r\n  position: relative;\r\n}\r\n\r\n.public-DraftStyleDefault-unorderedListItem.public-DraftStyleDefault-depth0 {\r\n  list-style-type: disc;\r\n}\r\n\r\n.public-DraftStyleDefault-unorderedListItem.public-DraftStyleDefault-depth1 {\r\n  list-style-type: circle;\r\n}\r\n\r\n/**\r\n * Ordered list item counters are managed with CSS, since all list nesting is\r\n * purely visual.\r\n */\r\n\r\n.public-DraftStyleDefault-orderedListItem {\r\n  list-style-type: none;\r\n  position: relative;\r\n}\r\n\r\n/* @noflip */\r\n\r\n.public-DraftStyleDefault-orderedListItem.public-DraftStyleDefault-listLTR:before {\r\n  left: -36px;\r\n  position: absolute;\r\n  text-align: right;\r\n  width: 30px;\r\n}\r\n\r\n/* @noflip */\r\n\r\n.public-DraftStyleDefault-orderedListItem.public-DraftStyleDefault-listRTL:before {\r\n  position: absolute;\r\n  right: -36px;\r\n  text-align: left;\r\n  width: 30px;\r\n}\r\n\r\n/**\r\n * Counters are reset in JavaScript. If you need different counter styles,\r\n * override these rules. If you need more nesting, create your own rules to\r\n * do so.\r\n */\r\n\r\n.public-DraftStyleDefault-orderedListItem:before {\r\n  content: counter(ol0) \". \";\r\n  counter-increment: ol0;\r\n}\r\n\r\n.public-DraftStyleDefault-orderedListItem.public-DraftStyleDefault-depth1:before {\r\n  content: counter(ol1) \". \";\r\n  counter-increment: ol1;\r\n}\r\n\r\n.public-DraftStyleDefault-orderedListItem.public-DraftStyleDefault-depth2:before {\r\n  content: counter(ol2) \". \";\r\n  counter-increment: ol2;\r\n}\r\n\r\n.public-DraftStyleDefault-orderedListItem.public-DraftStyleDefault-depth3:before {\r\n  content: counter(ol3) \". \";\r\n  counter-increment: ol3;\r\n}\r\n\r\n.public-DraftStyleDefault-orderedListItem.public-DraftStyleDefault-depth4:before {\r\n  content: counter(ol4) \". \";\r\n  counter-increment: ol4;\r\n}\r\n\r\n.public-DraftStyleDefault-depth0.public-DraftStyleDefault-reset {\r\n  counter-reset: ol0;\r\n}\r\n\r\n.public-DraftStyleDefault-depth1.public-DraftStyleDefault-reset {\r\n  counter-reset: ol1;\r\n}\r\n\r\n.public-DraftStyleDefault-depth2.public-DraftStyleDefault-reset {\r\n  counter-reset: ol2;\r\n}\r\n\r\n.public-DraftStyleDefault-depth3.public-DraftStyleDefault-reset {\r\n  counter-reset: ol3;\r\n}\r\n\r\n.public-DraftStyleDefault-depth4.public-DraftStyleDefault-reset {\r\n  counter-reset: ol4;\r\n}\r\n"
+	module.exports = "/**\n * We inherit the height of the container by default\n */\n\n.DraftEditor-root,\n.DraftEditor-editorContainer,\n.public-DraftEditor-content {\n  height: inherit;\n  text-align: initial;\n}\n\n.DraftEditor-root {\n  position: relative;\n}\n\n/**\n * Zero-opacity background used to allow focus in IE. Otherwise, clicks\n * fall through to the placeholder.\n */\n\n.DraftEditor-editorContainer {\n  background-color: rgba(255, 255, 255, 0);\n  /* Repair mysterious missing Safari cursor */\n  border-left: 0.1px solid transparent;\n  position: relative;\n  z-index: 1;\n}\n\n.public-DraftEditor-content {\n  outline: none;\n  white-space: pre-wrap;\n}\n\n.public-DraftEditor-block {\n  position: relative;\n}\n\n.DraftEditor-alignLeft .public-DraftEditor-block {\n  text-align: left;\n}\n\n.DraftEditor-alignLeft .public-DraftEditorPlaceholder-root {\n  left: 0;\n  text-align: left;\n}\n\n.DraftEditor-alignCenter .public-DraftEditor-block {\n  text-align: center;\n}\n\n.DraftEditor-alignCenter .public-DraftEditorPlaceholder-root {\n  margin: 0 auto;\n  text-align: center;\n  width: 100%;\n}\n\n.DraftEditor-alignRight .public-DraftEditor-block {\n  text-align: right;\n}\n\n.DraftEditor-alignRight .public-DraftEditorPlaceholder-root {\n  right: 0;\n  text-align: right;\n}\n/**\n * @providesModule DraftEditorPlaceholder\n */\n\n.public-DraftEditorPlaceholder-root {\n  color: #9197a3;\n  position: absolute;\n  z-index: 0;\n}\n\n.public-DraftEditorPlaceholder-hasFocus {\n  color: #bdc1c9;\n}\n\n.DraftEditorPlaceholder-hidden {\n  display: none;\n}\n/**\n * @providesModule DraftStyleDefault\n */\n\n.public-DraftStyleDefault-block {\n  position: relative;\n  white-space: pre-wrap;\n}\n\n/* @noflip */\n\n.public-DraftStyleDefault-ltr {\n  direction: ltr;\n  text-align: left;\n}\n\n/* @noflip */\n\n.public-DraftStyleDefault-rtl {\n  direction: rtl;\n  text-align: right;\n}\n\n/**\n * These rules provide appropriate text direction for counter pseudo-elements.\n */\n\n/* @noflip */\n\n.public-DraftStyleDefault-listLTR {\n  direction: ltr;\n}\n\n/* @noflip */\n\n.public-DraftStyleDefault-listRTL {\n  direction: rtl;\n}\n\n/**\n * Default spacing for list container elements. Override with CSS as needed.\n */\n\n.public-DraftStyleDefault-ul,\n.public-DraftStyleDefault-ol {\n  margin: 16px 0;\n  padding: 0;\n}\n\n/**\n * Default counters and styles are provided for five levels of nesting.\n * If you require nesting beyond that level, you should use your own CSS\n * classes to do so. If you care about handling RTL languages, the rules you\n * create should look a lot like these.\n */\n\n/* @noflip */\n\n.public-DraftStyleDefault-depth0.public-DraftStyleDefault-listLTR {\n  margin-left: 1.5em;\n}\n\n/* @noflip */\n\n.public-DraftStyleDefault-depth0.public-DraftStyleDefault-listRTL {\n  margin-right: 1.5em;\n}\n\n/* @noflip */\n\n.public-DraftStyleDefault-depth1.public-DraftStyleDefault-listLTR {\n  margin-left: 3em;\n}\n\n/* @noflip */\n\n.public-DraftStyleDefault-depth1.public-DraftStyleDefault-listRTL {\n  margin-right: 3em;\n}\n\n/* @noflip */\n\n.public-DraftStyleDefault-depth2.public-DraftStyleDefault-listLTR {\n  margin-left: 4.5em;\n}\n\n/* @noflip */\n\n.public-DraftStyleDefault-depth2.public-DraftStyleDefault-listRTL {\n  margin-right: 4.5em;\n}\n\n/* @noflip */\n\n.public-DraftStyleDefault-depth3.public-DraftStyleDefault-listLTR {\n  margin-left: 6em;\n}\n\n/* @noflip */\n\n.public-DraftStyleDefault-depth3.public-DraftStyleDefault-listRTL {\n  margin-right: 6em;\n}\n\n/* @noflip */\n\n.public-DraftStyleDefault-depth4.public-DraftStyleDefault-listLTR {\n  margin-left: 7.5em;\n}\n\n/* @noflip */\n\n.public-DraftStyleDefault-depth4.public-DraftStyleDefault-listRTL {\n  margin-right: 7.5em;\n}\n\n/**\n * Only use `square` list-style after the first two levels.\n */\n\n.public-DraftStyleDefault-unorderedListItem {\n  list-style-type: square;\n  position: relative;\n}\n\n.public-DraftStyleDefault-unorderedListItem.public-DraftStyleDefault-depth0 {\n  list-style-type: disc;\n}\n\n.public-DraftStyleDefault-unorderedListItem.public-DraftStyleDefault-depth1 {\n  list-style-type: circle;\n}\n\n/**\n * Ordered list item counters are managed with CSS, since all list nesting is\n * purely visual.\n */\n\n.public-DraftStyleDefault-orderedListItem {\n  list-style-type: none;\n  position: relative;\n}\n\n/* @noflip */\n\n.public-DraftStyleDefault-orderedListItem.public-DraftStyleDefault-listLTR:before {\n  left: -36px;\n  position: absolute;\n  text-align: right;\n  width: 30px;\n}\n\n/* @noflip */\n\n.public-DraftStyleDefault-orderedListItem.public-DraftStyleDefault-listRTL:before {\n  position: absolute;\n  right: -36px;\n  text-align: left;\n  width: 30px;\n}\n\n/**\n * Counters are reset in JavaScript. If you need different counter styles,\n * override these rules. If you need more nesting, create your own rules to\n * do so.\n */\n\n.public-DraftStyleDefault-orderedListItem:before {\n  content: counter(ol0) \". \";\n  counter-increment: ol0;\n}\n\n.public-DraftStyleDefault-orderedListItem.public-DraftStyleDefault-depth1:before {\n  content: counter(ol1) \". \";\n  counter-increment: ol1;\n}\n\n.public-DraftStyleDefault-orderedListItem.public-DraftStyleDefault-depth2:before {\n  content: counter(ol2) \". \";\n  counter-increment: ol2;\n}\n\n.public-DraftStyleDefault-orderedListItem.public-DraftStyleDefault-depth3:before {\n  content: counter(ol3) \". \";\n  counter-increment: ol3;\n}\n\n.public-DraftStyleDefault-orderedListItem.public-DraftStyleDefault-depth4:before {\n  content: counter(ol4) \". \";\n  counter-increment: ol4;\n}\n\n.public-DraftStyleDefault-depth0.public-DraftStyleDefault-reset {\n  counter-reset: ol0;\n}\n\n.public-DraftStyleDefault-depth1.public-DraftStyleDefault-reset {\n  counter-reset: ol1;\n}\n\n.public-DraftStyleDefault-depth2.public-DraftStyleDefault-reset {\n  counter-reset: ol2;\n}\n\n.public-DraftStyleDefault-depth3.public-DraftStyleDefault-reset {\n  counter-reset: ol3;\n}\n\n.public-DraftStyleDefault-depth4.public-DraftStyleDefault-reset {\n  counter-reset: ol4;\n}\n"
 
 /***/ },
-/* 207 */
+/* 210 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(208);
+	var content = __webpack_require__(211);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(164)(content, {"sourceMap":true});
@@ -24193,7 +24811,7 @@ module.exports =
 	}
 
 /***/ },
-/* 208 */
+/* 211 */
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(163)();
@@ -24201,17 +24819,17 @@ module.exports =
 
 
 	// module
-	exports.push([module.id, ".RichTextEditor__root___33zoV {\r\n  background: #fff;\r\n  border: 1px solid #ddd;\r\n  border-radius: 3px;\r\n  font-family: 'Georgia', serif;\r\n  font-size: 14px;\r\n  padding: 10px;\r\n}\r\n\r\n.RichTextEditor__editor___1VEsr {\r\n  border-top: 1px solid #ddd;\r\n  cursor: text;\r\n  font-size: 16px;\r\n  margin-top: 10px;\r\n}\r\n\r\n.RichTextEditor__editor___1VEsr .public-DraftEditorPlaceholder-root,\r\n.RichTextEditor__editor___1VEsr .public-DraftEditor-content {\r\n  margin: 0 -10px -10px;\r\n  padding: 10px;\r\n}\r\n\r\n.RichTextEditor__editor___1VEsr .public-DraftEditor-content {\r\n  overflow: auto;\r\n}\r\n\r\n.RichTextEditor__hidePlaceholder___3Kk-t .public-DraftEditorPlaceholder-root {\r\n  display: none;\r\n}\r\n\r\n.RichTextEditor__editor___1VEsr .RichTextEditor__paragraph___fFnY4 {\r\n  margin: 14px 0;\r\n}\r\n\r\n/* Consecutive code blocks are nested inside a single parent <pre> (like <li>\r\n  inside <ul>). Unstyle the parent and style the children. */\r\n.RichTextEditor__editor___1VEsr pre {\r\n  margin: 14px 0;\r\n}\r\n\r\n.RichTextEditor__editor___1VEsr .RichTextEditor__codeBlock___uySV1 {\r\n  background-color: #f3f3f3;\r\n  font-family: \"Inconsolata\", \"Menlo\", \"Consolas\", monospace;\r\n  font-size: 16px;\r\n  /* This should collapse with the margin around the parent <pre>. */\r\n  margin: 14px 0;\r\n  padding: 20px;\r\n}\r\n\r\n/* Hacky: Remove padding from inline <code> within code block. */\r\n.RichTextEditor__editor___1VEsr .RichTextEditor__codeBlock___uySV1 span[style] {\r\n  padding: 0 !important;\r\n}\r\n\r\n.RichTextEditor__editor___1VEsr .RichTextEditor__blockquote___2j6X- {\r\n  border-left: 5px solid #eee;\r\n  color: #666;\r\n  font-family: 'Hoefler Text', 'Georgia', serif;\r\n  font-style: italic;\r\n  margin: 16px 0;\r\n  padding: 10px 20px;\r\n}\r\n\r\n/* There shouldn't be margin outside the first/last blocks */\r\n.RichTextEditor__editor___1VEsr .RichTextEditor__block___3k2zv:first-child,\r\n.RichTextEditor__editor___1VEsr pre:first-child,\r\n.RichTextEditor__editor___1VEsr ul:first-child,\r\n.RichTextEditor__editor___1VEsr ol:first-child {\r\n  margin-top: 0;\r\n}\r\n.RichTextEditor__editor___1VEsr .RichTextEditor__block___3k2zv:last-child,\r\n.RichTextEditor__editor___1VEsr pre:last-child,\r\n.RichTextEditor__editor___1VEsr ul:last-child,\r\n.RichTextEditor__editor___1VEsr ol:last-child {\r\n  margin-bottom: 0;\r\n}\r\n", ""]);
+	exports.push([module.id, ".RichTextEditor__root___2QXK- {\n  background: #fff;\n  border: 1px solid #ddd;\n  border-radius: 3px;\n  font-size: 14px;\n  padding: 10px;\n}\n\n.RichTextEditor__editor___1QqIU {\n  border-top: 1px solid #ddd;\n  cursor: text;\n  font-size: 16px;\n  margin-top: 10px;\n}\n\n.RichTextEditor__editor___1QqIU .public-DraftEditorPlaceholder-root,\n.RichTextEditor__editor___1QqIU .public-DraftEditor-content {\n  margin: 0 -10px -10px;\n  padding: 10px;\n}\n\n.RichTextEditor__editor___1QqIU .public-DraftEditor-content {\n  overflow: auto;\n}\n\n.RichTextEditor__hidePlaceholder___3WLid .public-DraftEditorPlaceholder-root {\n  display: none;\n}\n\n.RichTextEditor__editor___1QqIU .RichTextEditor__paragraph___3NTf9 {\n  margin: 14px 0;\n}\n\n/* Consecutive code blocks are nested inside a single parent <pre> (like <li>\n  inside <ul>). Unstyle the parent and style the children. */\n.RichTextEditor__editor___1QqIU pre {\n  margin: 14px 0;\n}\n\n.RichTextEditor__editor___1QqIU .RichTextEditor__codeBlock____KD4Q {\n  background-color: #f3f3f3;\n  font-family: \"Inconsolata\", \"Menlo\", \"Consolas\", monospace;\n  font-size: 16px;\n  /* This should collapse with the margin around the parent <pre>. */\n  margin: 14px 0;\n  padding: 20px;\n}\n\n/* Hacky: Remove padding from inline <code> within code block. */\n.RichTextEditor__editor___1QqIU .RichTextEditor__codeBlock____KD4Q span[style] {\n  padding: 0 !important;\n}\n\n.RichTextEditor__editor___1QqIU .RichTextEditor__blockquote___1vCYl {\n  border-left: 5px solid #eee;\n  color: #666;\n  font-style: italic;\n  margin: 16px 0;\n  padding: 10px 20px;\n}\n\n/* There shouldn't be margin outside the first/last blocks */\n.RichTextEditor__editor___1QqIU .RichTextEditor__block___2Vs_D:first-child,\n.RichTextEditor__editor___1QqIU pre:first-child,\n.RichTextEditor__editor___1QqIU ul:first-child,\n.RichTextEditor__editor___1QqIU ol:first-child {\n  margin-top: 0;\n}\n.RichTextEditor__editor___1QqIU .RichTextEditor__block___2Vs_D:last-child,\n.RichTextEditor__editor___1QqIU pre:last-child,\n.RichTextEditor__editor___1QqIU ul:last-child,\n.RichTextEditor__editor___1QqIU ol:last-child {\n  margin-bottom: 0;\n}\n", ""]);
 
 	// exports
 	exports.locals = {
-		"root": "RichTextEditor__root___33zoV",
-		"editor": "RichTextEditor__editor___1VEsr",
-		"hidePlaceholder": "RichTextEditor__hidePlaceholder___3Kk-t",
-		"paragraph": "RichTextEditor__paragraph___fFnY4",
-		"codeBlock": "RichTextEditor__codeBlock___uySV1",
-		"blockquote": "RichTextEditor__blockquote___2j6X-",
-		"block": "RichTextEditor__block___3k2zv"
+		"root": "RichTextEditor__root___2QXK-",
+		"editor": "RichTextEditor__editor___1QqIU",
+		"hidePlaceholder": "RichTextEditor__hidePlaceholder___3WLid",
+		"paragraph": "RichTextEditor__paragraph___3NTf9",
+		"codeBlock": "RichTextEditor__codeBlock____KD4Q",
+		"blockquote": "RichTextEditor__blockquote___1vCYl",
+		"block": "RichTextEditor__block___2Vs_D"
 	};
 
 /***/ }

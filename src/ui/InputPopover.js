@@ -40,9 +40,12 @@ export default class InputPopover extends Component {
   render(): React.Element {
     let {props} = this;
     let className = cx(props.className, styles.root);
+    const {children} = props;
+
     return (
       <div className={className}>
         <div className={styles.inner}>
+          {children}
           <input
             ref={this._setInputRef}
             type="text"

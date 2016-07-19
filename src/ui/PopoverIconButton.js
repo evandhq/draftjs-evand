@@ -1,6 +1,6 @@
 /* @flow */
 
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import IconButton from './IconButton';
 import InputPopover from './InputPopover';
 import autobind from 'class-autobind';
@@ -13,15 +13,15 @@ type Props = {
 };
 
 export default class PopoverIconButton extends Component {
-  props: Props;
+  props:Props;
 
   constructor() {
     super(...arguments);
     autobind(this);
   }
 
-  render(): React.Element {
-    let {onTogglePopover, showPopover, ...props} = this.props; // eslint-disable-line no-unused-vars
+  render():React.Element {
+    let { onTogglePopover, showPopover, ...props } = this.props; // eslint-disable-line no-unused-vars
     return (
       <IconButton {...props} onClick={onTogglePopover}>
         {this._renderPopover()}
@@ -30,6 +30,8 @@ export default class PopoverIconButton extends Component {
   }
 
   _renderPopover() {
+    const { children } = this.props;
+    
     if (!this.props.showPopover) {
       return null;
     }
@@ -37,7 +39,9 @@ export default class PopoverIconButton extends Component {
       <InputPopover
         onSubmit={this._onSubmit}
         onCancel={this._hidePopover}
-      />
+      >
+        {children}
+      </InputPopover>
     );
   }
 

@@ -6,16 +6,16 @@ export const INLINE_STYLE_BUTTONS = [
 ];
 
 export const BLOCK_TYPE_DROPDOWN = [
-  {label: 'Normal', style: 'unstyled'},
-  {label: 'Heading Large', style: 'header-one'},
-  {label: 'Heading Medium', style: 'header-two'},
-  {label: 'Heading Small', style: 'header-three'},
-  {label: 'Code Block', style: 'code-block'},
+  {label: 'معمولی', style: 'unstyled'},
+  {label: 'تیتر بزرگ', style: 'header-one'},
+  {label: 'تیتر متوسط', style: 'header-two'},
+  {label: 'تیتر کوچک', style: 'header-three'},
+  // {label: 'Code Block', style: 'code-block'},
 ];
 export const BLOCK_TYPE_BUTTONS = [
-  {label: 'UL', style: 'unordered-list-item'},
-  {label: 'OL', style: 'ordered-list-item'},
-  {label: 'Blockquote', style: 'blockquote'},
+  {label: 'لیست', style: 'unordered-list-item'},
+  {label: 'لیست باترتیب', style: 'ordered-list-item'},
+  {label: 'نقل قول', style: 'blockquote'},
 ];
 
 export default {

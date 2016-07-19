@@ -1,10 +1,8 @@
 /* @flow */
-import React, {Component} from 'react';
-import RichTextEditor, {createEmptyValue} from './RichTextEditor';
-import {convertToRaw} from 'draft-js';
+import React, { Component } from 'react';
+import RichTextEditor, { createEmptyValue, EditorValue } from './RichTextEditor';
+import { convertToRaw } from 'draft-js';
 import autobind from 'class-autobind';
-
-import type {EditorValue} from './RichTextEditor';
 
 type Props = {};
 type State = {
@@ -13,32 +11,47 @@ type State = {
 };
 
 export default class EditorDemo extends Component {
-  props: Props;
-  state: State;
+  props:Props;
+  state:State;
 
   constructor() {
     super(...arguments);
     autobind(this);
     this.state = {
       value: createEmptyValue(),
-      format: 'html',
+      format: 'html'
     };
   }
 
-  render(): React.Element {
-    let {value, format} = this.state;
+  handleFileUpload(cb, event) {
+    var reader = new FileReader();
+
+    reader.addEventListener("load", function () {
+      cb(reader.result);
+    }, false);
+
+    const file = event.target.files[0];
+
+    if (file) {
+      reader.readAsDataURL(file);
+    }
+  }
+
+  render():React.Element {
+    let { value, format } = this.state;
 
     return (
       <div className="editor-demo">
         <div className="row">
-          <p>This is a demo of the <a href="https://github.com/sstur/react-rte" target="top">react-rte</a> editor.</p>
+          <p>این دموی درفت.جی‌اس ایوند است.</p>
         </div>
         <div className="row">
           <RichTextEditor
             value={value}
             onChange={this._onChange}
+            onFileChange={this.handleFileUpload}
             className="react-rte-demo"
-            placeholder="Tell a story"
+            placeholder="یه چیزی بگو"
             toolbarClassName="demo-toolbar"
             editorClassName="demo-editor"
           />
@@ -52,7 +65,7 @@ export default class EditorDemo extends Component {
               checked={format === 'html'}
               onChange={this._onChangeFormat}
             />
-            <span>HTML</span>
+            <span>اچ‌تی‌ام‌ال</span>
           </label>
           <label className="radio-item">
             <input
@@ -62,7 +75,7 @@ export default class EditorDemo extends Component {
               checked={format === 'markdown'}
               onChange={this._onChangeFormat}
             />
-            <span>Markdown</span>
+            <span>مارک‌داون</span>
           </label>
         </div>
         <div className="row">
@@ -95,11 +108,11 @@ export default class EditorDemo extends Component {
     console.log(JSON.stringify(rawContentState));
   }
 
-  _onChange(value: EditorValue) {
-    this.setState({value});
+  _onChange(value:EditorValue) {
+    this.setState({ value });
   }
 
-  _onChangeSource(event: Object) {
+  _onChangeSource(event:Object) {
     let source = event.target.value;
     let oldValue = this.state.value;
     this.setState({
@@ -107,7 +120,7 @@ export default class EditorDemo extends Component {
     });
   }
 
-  _onChangeFormat(event: Object) {
-    this.setState({format: event.target.value});
+  _onChangeFormat(event:Object) {
+    this.setState({ format: event.target.value });
   }
 }

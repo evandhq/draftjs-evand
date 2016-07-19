@@ -21150,9 +21150,18 @@
 
 	  _createClass(EditorDemo, [{
 	    key: 'handleFileUpload',
-	    value: function handleFileUpload(cb, file) {
-	      console.log(file.target.files);
-	      cb('https://static.evand.ir/images/events/covers/original/290e4ec55f1411d1e5b347a8913a8833.jpg');
+	    value: function handleFileUpload(cb, event) {
+	      var reader = new FileReader();
+
+	      reader.addEventListener("load", function () {
+	        cb(reader.result);
+	      }, false);
+
+	      var file = event.target.files[0];
+
+	      if (file) {
+	        reader.readAsDataURL(file);
+	      }
 	    }
 	  }, {
 	    key: 'render',
@@ -39799,7 +39808,7 @@
 	          _react2.default.createElement(
 	            'div',
 	            { style: { flexBasis: '100%' } },
-	            'از رو کامپیوتر خود',
+	            'از روی کامپیوتر خود',
 	            _react2.default.createElement(
 	              _Button2.default,
 	              null,

@@ -1,6 +1,14 @@
 /* @flow */
-import React, {Component} from 'react';
-import {CompositeDecorator, Editor, EditorState, Modifier, RichUtils} from 'draft-js';
+import React, { Component } from 'react';
+import {
+  CompositeDecorator,
+  Editor,
+  EditorState,
+  Modifier,
+  RichUtils,
+  ContentBlock,
+  Entity
+} from 'draft-js';
 import getDefaultKeyBinding from 'draft-js/lib/getDefaultKeyBinding';
 import changeBlockDepth from './lib/changeBlockDepth';
 import changeBlockType from './lib/changeBlockType';
@@ -14,15 +22,13 @@ import LinkDecorator from './lib/LinkDecorator';
 import ImageDecorator from './lib/ImageDecorator';
 import cx from 'classnames';
 import autobind from 'class-autobind';
-import {EventEmitter} from 'events';
-import {BLOCK_TYPE} from 'draft-js-utils';
-
-// $FlowIssue - Flow doesn't understand CSS Modules
+import { EventEmitter } from 'events';
+import { BLOCK_TYPE } from 'draft-js-utils';
 import './Draft.global.css';
-// $FlowIssue - Flow doesn't understand CSS Modules
 import styles from './RichTextEditor.css';
 
-import {ContentBlock, Entity} from 'draft-js';
+// $FlowIssue - Flow doesn't understand CSS Modules
+// $FlowIssue - Flow doesn't understand CSS Modules
 
 const MAX_LIST_DEPTH = 2;
 
@@ -36,7 +42,7 @@ const styleMap = {
   },
 };
 
-type ChangeHandler = (value: EditorValue) => any;
+type ChangeHandler = (value:EditorValue) => any;
 
 type Props = {
   className?: string;
@@ -46,11 +52,12 @@ type Props = {
   onChange?: ChangeHandler;
   placeholder?: string;
   customStyleMap?: {[style: string]: {[key: string]: any}};
+  onFileChange: Function;
 };
 
 export default class RichTextEditor extends Component {
-  props: Props;
-  _keyEmitter: EventEmitter;
+  props:Props;
+  _keyEmitter:EventEmitter;
 
   constructor() {
     super(...arguments);
@@ -58,10 +65,10 @@ export default class RichTextEditor extends Component {
     autobind(this);
   }
 
-  render(): React.Element {
-    let {value, className, toolbarClassName, editorClassName, placeholder, customStyleMap, ...otherProps} = this.props;
+  render():React.Element {
+    let { value, className, toolbarClassName, editorClassName, placeholder, customStyleMap, ...otherProps } = this.props;
     let editorState = value.getEditorState();
-    customStyleMap = customStyleMap ? {...styleMap, ...customStyleMap} : styleMap;
+    customStyleMap = customStyleMap ? { ...styleMap, ...customStyleMap } : styleMap;
 
     // If the user changes block type before entering any text, we can either
     // style the placeholder or hide it. Let's just hide it for now.
@@ -77,6 +84,7 @@ export default class RichTextEditor extends Component {
           editorState={editorState}
           onChange={this._onChange}
           focusEditor={this._focus}
+          onFileChange={this.props.onFileChange}
         />
         <div className={combinedEditorClassName}>
           <Editor
@@ -98,7 +106,7 @@ export default class RichTextEditor extends Component {
     );
   }
 
-  _shouldHidePlaceholder(): boolean {
+  _shouldHidePlaceholder():boolean {
     let editorState = this.props.value.getEditorState();
     let contentState = editorState.getCurrentContent();
     if (!contentState.hasText()) {
@@ -109,7 +117,7 @@ export default class RichTextEditor extends Component {
     return false;
   }
 
-  _handleReturn(event: Object): boolean {
+  _handleReturn(event:Object):boolean {
     if (this._handleReturnSoftNewline(event)) {
       return true;
     }
@@ -123,7 +131,7 @@ export default class RichTextEditor extends Component {
   }
 
   // `shift + return` should insert a soft newline.
-  _handleReturnSoftNewline(event: Object): boolean {
+  _handleReturnSoftNewline(event:Object):boolean {
     let editorState = this.props.value.getEditorState();
     if (isSoftNewlineEvent(event)) {
       let selection = editorState.getSelection();
@@ -152,7 +160,7 @@ export default class RichTextEditor extends Component {
 
   // If the cursor is in an empty list item when return is pressed, then the
   // block type should change to normal (end the list).
-  _handleReturnEmptyListItem(): boolean {
+  _handleReturnEmptyListItem():boolean {
     let editorState = this.props.value.getEditorState();
     let selection = editorState.getSelection();
     if (selection.isCollapsed()) {
@@ -173,7 +181,7 @@ export default class RichTextEditor extends Component {
 
   // If the cursor is at the end of a special block (any block type other than
   // normal or list item) when return is pressed, new block should be normal.
-  _handleReturnSpecialBlock(): boolean {
+  _handleReturnSpecialBlock():boolean {
     let editorState = this.props.value.getEditorState();
     let selection = editorState.getSelection();
     if (selection.isCollapsed()) {
@@ -196,7 +204,7 @@ export default class RichTextEditor extends Component {
     return false;
   }
 
-  _onTab(event: Object): ?string {
+  _onTab(event:Object):?string {
     let editorState = this.props.value.getEditorState();
     let newEditorState = RichUtils.onTab(event, editorState, MAX_LIST_DEPTH);
     if (newEditorState !== editorState) {
@@ -204,7 +212,7 @@ export default class RichTextEditor extends Component {
     }
   }
 
-  _customKeyHandler(event: Object): ?string {
+  _customKeyHandler(event:Object):?string {
     // Allow toolbar to catch key combinations.
     let eventFlags = {};
     this._keyEmitter.emit('keypress', event, eventFlags);
@@ -215,7 +223,7 @@ export default class RichTextEditor extends Component {
     }
   }
 
-  _handleKeyCommand(command: string): boolean {
+  _handleKeyCommand(command:string):boolean {
     let editorState = this.props.value.getEditorState();
     let newEditorState = RichUtils.handleKeyCommand(editorState, command);
     if (newEditorState) {
@@ -226,8 +234,8 @@ export default class RichTextEditor extends Component {
     }
   }
 
-  _onChange(editorState: EditorState) {
-    let {onChange, value} = this.props;
+  _onChange(editorState:EditorState) {
+    let { onChange, value } = this.props;
     if (onChange == null) {
       return;
     }
@@ -237,13 +245,13 @@ export default class RichTextEditor extends Component {
     onChange(newValue);
   }
 
-  _handleInlineImageSelection(editorState: EditorState) {
+  _handleInlineImageSelection(editorState:EditorState) {
     let selection = editorState.getSelection();
     let blocks = getBlocksInSelection(editorState);
 
     const selectImage = (block, offset) => {
       const imageKey = block.getEntityAt(offset);
-      Entity.mergeData(imageKey, {selected: true});
+      Entity.mergeData(imageKey, { selected: true });
     };
 
     let isInMiddleBlock = (index) => index > 0 && index < blocks.size - 1;
@@ -259,8 +267,8 @@ export default class RichTextEditor extends Component {
         block,
         (offset) => {
           if (isWithinStartBlockSelection(offset, index) ||
-              isInMiddleBlock(index) ||
-              isWithinEndBlockSelection(offset, index)) {
+            isInMiddleBlock(index) ||
+            isWithinEndBlockSelection(offset, index)) {
             selectImage(block, offset);
           }
         });
@@ -272,7 +280,7 @@ export default class RichTextEditor extends Component {
   }
 }
 
-function getBlockStyle(block: ContentBlock): string {
+function getBlockStyle(block:ContentBlock):string {
   let result = styles.block;
   switch (block.getType()) {
     case 'unstyled':
@@ -288,11 +296,11 @@ function getBlockStyle(block: ContentBlock): string {
 
 const decorator = new CompositeDecorator([LinkDecorator, ImageDecorator]);
 
-function createEmptyValue(): EditorValue {
+function createEmptyValue():EditorValue {
   return EditorValue.createEmpty(decorator);
 }
 
-function createValueFromString(markup: string, format: string): EditorValue {
+function createValueFromString(markup:string, format:string):EditorValue {
   return EditorValue.createFromString(markup, format, decorator);
 }
 
@@ -304,4 +312,4 @@ Object.assign(RichTextEditor, {
   createValueFromString,
 });
 
-export {EditorValue, decorator, createEmptyValue, createValueFromString};
+export { EditorValue, decorator, createEmptyValue, createValueFromString };
