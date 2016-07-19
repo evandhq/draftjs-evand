@@ -1,7 +1,7 @@
 {
-  "name": "react-rte-image",
-  "version": "0.5.0",
-  "description": "React Rich Text Editor",
+  "name": "draftjs-evand",
+  "version": "1.0.0",
+  "description": "React Rich Text Editor for evand.ir",
   "main": "dist/react-rte.js",
   "scripts": {
     "build": "npm run build-lib && npm run build-dist",
