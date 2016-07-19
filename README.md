@@ -6,7 +6,7 @@ I'll remove this package if original package adopts image-support feature.
 
 ## Getting Started
 
-    $ npm install --save react-rte-image
+    $ npm install --save draftjs-evand
 
 ## Run the Demo
 Clone this project. Run `npm install`. Run `npm run build-dist` then point the server of your choice (like [serv][serv]) to `/demo.html`.
